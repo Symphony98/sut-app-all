@@ -1,0 +1,5 @@
+/* 重置element-ui的css样式 当模块化css重置不生效的时候  */
+/* app.vue中 ipt样式 */
+.ipt .el-input__inner {
+    width: 45% !important;
+}

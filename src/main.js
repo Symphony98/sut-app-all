@@ -2,8 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+// 引入element-ui
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+// 引入全局css和element-rest
+import './assets/css/global.css'
+import '@/assets/css/el-reset.css'
 
-Vue.config.productionTip = false
+Vue.use(ElementUI)
+// Vue.config.productionTip = false
 
 new Vue({
   router,
