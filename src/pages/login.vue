@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-      <div class="left"></div>
+    <div class="left"></div>
     <div class="loginContainer">
       <h1 class="title">万锋管理系统</h1>
       <el-form :model="loginForm"
@@ -36,15 +36,16 @@
   </div>
 </template>
 <script>
+import { login } from '@/api'
 export default {
   data () {
     // 校验用户名
     var validateUsername = (rule, value, callback) => {
       // 用户名正则，4到16位（字母，数字，下划线，减号）
-      var uPattern = /^[a-zA-Z0-9_-]{4,16}$/
-      if (!uPattern.test(value)) {
+      // var uPattern = /^[a-zA-Z0-9_-]{4,16}$/
+      if (value === '') {
         console.log(123)
-        callback(new Error('请输入用户名4到16位（字母，数字，下划线，减号）'))
+        callback(new Error('请输入用户名'))
       } else {
         callback()
       }
@@ -73,11 +74,41 @@ export default {
     }
   },
   methods: {
+    // 点击提交按钮触发的方法
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
+        if (valid) { // 本地校验通过
+          // 打开加载框
+          const loginLoading = this.$loading({
+            lock: true,
+            text: '拼命加载中',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          })
+          // 发送登入请求
+          login(this.loginForm.username, this.loginForm.password)
+            .then(res => {
+              // 关闭加载框
+              loginLoading.close()
+              if (res.data && res.data.state) {
+                // 表示用户名密码正确
+                // 将token存入本地
+                localStorage.setItem('wf-token', res.data.token)
+                // 页面跳转到主页
+                this.$router.push('/')
+                this.$message('登入成功')
+              } else {
+                // 提示用户 账户密码错误
+                this.$message.error('账户密码错误')
+              }
+            })
+            .catch(err => {
+              // 关闭加载框
+              loginLoading.close()
+              this.$message.error('登入出错')
+              console.log(err)
+            })
+        } else { // 本地校验不通过
           console.log('error submit!!')
           return false
         }
@@ -132,19 +163,18 @@ export default {
       left: 0;
       opacity: 0.5;
     }
-
   }
-   .left {
-      width: 50%;
-      height: 100%;
-      background-image: url("../assets/imgs/bg2.png");
-      background-repeat:no-repeat;
-      background-size:50%;
-      // float: left;
-      position:absolute;
-      opacity: .7;
-      background-position: 60% 65%;
-    }
+  .left {
+    width: 50%;
+    height: 100%;
+    background-image: url("../assets/imgs/bg2.png");
+    background-repeat: no-repeat;
+    background-size: 50%;
+    // float: left;
+    position: absolute;
+    opacity: 0.7;
+    background-position: 60% 65%;
+  }
   .el-form.demo-loginForm {
     padding: 0 50px 0 0;
   }
