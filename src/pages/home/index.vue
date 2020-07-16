@@ -23,10 +23,10 @@
             </el-col>
             <el-col :span="6">
               <div class="grid-content">
-                <el-avatar shape="square"
-                           :size="40"
-                           fit="fit"
-                           src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIzXDib7zrmdYxdEQpYk85B26DZAJS6PUJC7ic4Fydibdz9L2gU3hloPcibuyo0xAFztxqPbgdVWp1zpQ/132"></el-avatar>
+                <el-avatar shape="circle"
+                           :size="35"
+                           fit="fill"
+                           src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKL6Uj3HPlcico2jy2GBpKyqBjbWCuicAibQ0BRic2Pu8a1fBUzGH7YB6UOy4Tl1k3iacXrEeLPyzXvs5Q/132"></el-avatar>
                 <span>欢迎您:</span>
                 <span>退出</span>
               </div>
@@ -51,7 +51,8 @@ export default {
 </script>
 <style scoped>
   /* 修改avatar的样式 */
-  .el-avatar.el-avatar--square {
+  .el-avatar.el-avatar--square,
+  .el-avatar.el-avatar--circle {
     vertical-align: middle;
     margin-right: 10px;
   }
@@ -61,13 +62,17 @@ export default {
     min-height: 60px;
   }
   .row-bg {
-    background-color: #41b883;
+    /* background-color: #41b883; */
   }
 
   /* container样式 */
   .el-header {
+    background: linear-gradient(135deg, #4c67ff, #5635df);
+    -webkit-box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.29);
+    box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.29);
+    padding-left: 0;
     background-color: #41b883;
-    color: #333;
+    color: #fff;
     text-align: center;
     line-height: 60px;
   }

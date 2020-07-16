@@ -1,4 +1,5 @@
 module.exports = {
+  outputDir: process.env.outputDir ? process.env.outputDir : 'dist',
   lintOnSave: false,
   devServer: {
     port: 8080, // 设置项目端口号

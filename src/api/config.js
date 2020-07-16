@@ -1,7 +1,7 @@
 import axios from 'axios'
 import router from '../router'
 // 通过axios.create方法 配置默认请求属性
-const baseURL = process.env.NODE_ENV === 'development' ? '/api' : '服务器地址'
+const baseURL = process.env.NODE_ENV === 'development' ? '/api' : 'http://chst.vip:1901'
 axios.defaults.baseURL = baseURL
 axios.create({
   timeout: 3000,
