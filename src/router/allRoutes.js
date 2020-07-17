@@ -14,7 +14,8 @@ const allRoutes = [
         name: 'Welcome',
         component: Welcome,
         meta: {
-            name: '管理首页'
+            name: '管理首页',
+            icon: "iconfont icon-shouye"
         }
     },
     {
@@ -22,7 +23,8 @@ const allRoutes = [
         name: 'StudentManager',
         component: StudentManager,
         meta: {
-            name: '学员管理'
+            name: '学员管理',
+            icon: "iconfont icon-xueyuan"
         },
         children: [
             {
@@ -30,7 +32,8 @@ const allRoutes = [
                 name: 'studentProduct',
                 component: studentProduct,
                 meta: {
-                    name: '学员项目管理'
+                    name: '学员项目管理',
+                    icon: "iconfont icon-xueyuan"
                 }
             },
             {
@@ -38,7 +41,8 @@ const allRoutes = [
                 name: 'studentProfile',
                 component: studentProfile,
                 meta: {
-                    name: '学员资料'
+                    name: '学员资料',
+                    icon: "iconfont icon-xueyuan"
                 }
             },
             {
@@ -46,7 +50,8 @@ const allRoutes = [
                 name: 'studentDormitory',
                 component: studentDormitory,
                 meta: {
-                    name: '学员宿舍'
+                    name: '学员宿舍',
+                    icon: "iconfont icon-xueyuan"
                 }
             }
         ]
@@ -56,7 +61,8 @@ const allRoutes = [
         name: 'Attendance',
         component: Attendance,
         meta: {
-            name: '考勤管理'
+            name: '考勤管理',
+            icon: "iconfont icon-kaoqin"
         }
     },
     {
@@ -64,7 +70,8 @@ const allRoutes = [
         name: 'Users',
         component: Users,
         meta: {
-            name: '用户管理'
+            name: '用户管理',
+            icon: "iconfont icon-yonghu"
         }
     },
     {
@@ -72,7 +79,8 @@ const allRoutes = [
         name: 'Statistics',
         component: Statistics,
         meta: {
-            name: '数据统计'
+            name: '数据统计',
+            icon: "iconfont icon-shuju1"
         }
     },
     {
@@ -80,7 +88,8 @@ const allRoutes = [
         name: 'Mine',
         component: Mine,
         meta: {
-            name: '我的中心'
+            name: '我的中心',
+            icon: "iconfont icon-wode"
         }
     }
 ]

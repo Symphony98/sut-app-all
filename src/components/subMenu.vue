@@ -5,7 +5,8 @@
       <el-submenu index="1"
                   v-if="item.children&&item.children.length>0">
         <template slot="title">
-          <i class="el-icon-s-custom"></i>
+          <i :class="item.meta.icon"
+             style="margin-right:10px;font-size:20px"></i>
           <span slot="title">{{item.meta.name}}</span>
         </template>
         <el-menu-item-group>
@@ -13,10 +14,10 @@
         </el-menu-item-group>
       </el-submenu>
       <!-- 常规菜单 -->
-      <el-menu-item 
-      v-else
-      @click="jumpRoute(item.name)">
-        <i class="el-icon-menu"></i>
+      <el-menu-item v-else
+                    @click="jumpRoute(item.name)">
+        <i :class="item.meta.icon"
+           style="margin-right:10px;font-size:20px"></i>
         <span slot="title">{{item.meta.name}}</span>
       </el-menu-item>
     </div>
