@@ -18,38 +18,6 @@ const allRoutes = [
         }
     },
     {
-        path: 'Attendance',
-        name: 'Attendance',
-        component: Attendance,
-        meta: {
-            name: '考勤管理'
-        }
-    },
-    {
-        path: 'Users',
-        name: 'Users',
-        component: Users,
-        meta: {
-            name: '用户管理'
-        }
-    },
-    {
-        path: 'Mine',
-        name: 'Mine',
-        component: Mine,
-        meta: {
-            name: '我的中心'
-        }
-    },
-    {
-        path: 'Statistics',
-        name: 'Statistics',
-        component: Statistics,
-        meta: {
-            name: '数据统计'
-        }
-    },
-    {
         path: 'StudentManager',
         name: 'StudentManager',
         component: StudentManager,
@@ -82,6 +50,38 @@ const allRoutes = [
                 }
             }
         ]
+    },
+    {
+        path: 'Attendance',
+        name: 'Attendance',
+        component: Attendance,
+        meta: {
+            name: '考勤管理'
+        }
+    },
+    {
+        path: 'Users',
+        name: 'Users',
+        component: Users,
+        meta: {
+            name: '用户管理'
+        }
+    },
+    {
+        path: 'Statistics',
+        name: 'Statistics',
+        component: Statistics,
+        meta: {
+            name: '数据统计'
+        }
+    },
+    {
+        path: 'Mine',
+        name: 'Mine',
+        component: Mine,
+        meta: {
+            name: '我的中心'
+        }
     }
 ]
 

@@ -13,7 +13,9 @@
         </el-menu-item-group>
       </el-submenu>
       <!-- 常规菜单 -->
-      <el-menu-item @click="jumpRoute(item.name)">
+      <el-menu-item 
+      v-else
+      @click="jumpRoute(item.name)">
         <i class="el-icon-menu"></i>
         <span slot="title">{{item.meta.name}}</span>
       </el-menu-item>
