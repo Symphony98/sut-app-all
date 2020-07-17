@@ -1,22 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import home from '@/pages/home'
-import product from '@/pages/home/product'
+import Home from '@/pages/Home'
+// import product from '@/pages/Home/product'
+
+import allRoutes from './allRoutes'
 Vue.use(VueRouter)
 const routes = [
   {
     path: '/login',
-    component: () => import(/* webpackChunkName:'login' */ '../pages/login.vue')
+    component: () => import(/* webpackChunkName:'login' */ '../pages/Login')
   },
   {
     path: '/',
-    component: home,
-    children: [
-      {
-        path: 'product',
-        component: product
-      }
-    ]
+    component: Home,
+    children: allRoutes
+  },
+  {
+    path: '*',
+    component: () => import(/* webpackChunkName:'page404' */ '../pages/page404')
   }
 ]
 

@@ -3,7 +3,13 @@
     <el-container>
       <!-- 侧边菜单栏 -->
       <el-aside width="200">
-        <subMenu></subMenu>
+        <h1 class="logo">logo</h1>
+        <el-menu default-active="1-4"
+                 class="el-menu-vertical-demo"
+                 :router="true"
+                 :collapse="isCollapse">
+          <subMenu></subMenu>
+        </el-menu>
       </el-aside>
       <el-container>
         <!-- 顶栏布局 -->
@@ -12,8 +18,9 @@
                   class="row-bg"
                   justify="space-between">
             <el-col :span="6">
-              <div class="grid-content">
-                图标
+              <div class="sq grid-content">
+                <i class="iconfont icon-sq"
+                   @click="isCollapse=!isCollapse"></i>
               </div>
             </el-col>
             <el-col :span="6">
@@ -44,12 +51,32 @@
 <script>
 import subMenu from '../../components/subMenu'
 export default {
+  data () {
+    return {
+      // 控制menu是否收起
+      isCollapse: false
+    }
+  },
   components: {
     subMenu
   }
 }
 </script>
 <style scoped>
+  /* asside样式 */
+  .logo {
+    line-height: 60px;
+    background: red;
+  }
+  /* header模块样式 */
+  .sq {
+    padding-left: 10px;
+    text-align: left;
+  }
+  .icon-sq {
+    font-size: 30px;
+    cursor: pointer;
+  }
   /* 修改avatar的样式 */
   .el-avatar.el-avatar--square,
   .el-avatar.el-avatar--circle {
@@ -78,6 +105,7 @@ export default {
   }
 
   .el-aside {
+    background: linear-gradient(135deg, #4c67ff, #5635df);
   }
 
   .el-main {
@@ -98,5 +126,9 @@ export default {
 
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
+  }
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
   }
 </style>

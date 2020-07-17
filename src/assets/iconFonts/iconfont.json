@@ -1,0 +1,30 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "3927072",
+      "name": "电脑角标",
+      "font_class": "diannaojiaobiao",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "5479619",
+      "name": "二维码角标",
+      "font_class": "erweimajiaobiao",
+      "unicode": "e530",
+      "unicode_decimal": 58672
+    },
+    {
+      "icon_id": "13653539",
+      "name": "收 起",
+      "font_class": "shouqi",
+      "unicode": "e985",
+      "unicode_decimal": 59781
+    }
+  ]
+}

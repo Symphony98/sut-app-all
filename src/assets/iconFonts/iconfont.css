@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "iconfont";
+  src: url('iconfont.eot?t=1594948148301');
+  /* IE9 */
+  src: url('iconfont.eot?t=1594948148301#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAQEAAsAAAAACGQAAAO3AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqEFINNATYCJAMQCwoABCAFhG0HVBtLB1GUzc0i2Udi7DwKTUijsqUKS+NG+BMP/3/v5z73nlemVSrUCjXsy4dmeSsC0VAi0jEWCkjAwukC///azA8UNg9ivkb1tMKmohoqysIMIUZKJnW9rlTUjj2L283s4Jjpom1geTabS3bgAEcJNLDs/6YiCmH8ZXi1S+GgHycwbEkF6rzfkDFgk8i6QLwYugK2jE42FIdeaCuOZsRbYPXlNX0JwJvg7+M/xKKnaCqy9eKurwY9fkrvlzOL/i8yyUMAfzoL5FNUbANJPFTarjBRbBtj2Mxs4gDo6U8KP6U33Pvl//+D4CiyHv7lUYRKtEjhKNgDab0wPmdS+MUxCf4ul3tIdK7uMQu8A/AdsAvpYVyzW0TctWYyTdd7mlq2w+vmuk9dKxFnFjcKnrUB2hl3waI63h4XNm+P8PjdjXtDG6MNd2Th7M3yZsuNPMVTAs1PAF4WKGEs8Fn3OFmIM7EDa2AM99CyIPs3YAez4UAr+7Q4xcdlB60wjlIzxafdstQ0ZYpn7cHFDRXuXfsW7Z/tXuPJhAJJduoFV8KtIrd07f2Ajsyc0hFN2XeDB7fhClypXdh0fciQZSk2wf0fPIQEn6xw+x9AbYsOXHa8WfkArseXET52DOvxAlwuxxhdkvDFOoR0DXM2FmPC9sKX0U+sQdkFDaEYwijkuBIppbmowRb2fLo9+3lEp++NBfLhE9+6rjEmrXSFIqE30pnTZ9jV2Tevh6JD+it97r7jkEdvhuGQGzfTO784cMiLm2PvIY9ndf9TS7RetZaT4laS3SrcBjmAwb76npkDMFibUF85ibvJ1JVfvcyXyCE81dXlq0141IEf7YvbBJzuKIb/v/gm/8e2JM3gf1ZFSPSZBp/LS/cXSuecoGDYMAbINe3JFIo5M0LoM3wZis4iVL1lZGK3oTFiD1q9Ixi2pf/pETMsjMghbFqOIEw6CsW4b1BNuoxM7GNozPsMrcmoMOwyfFeOWI1HvreFFII0sXa2aKhmFjMj4cPiUUgvpBUrLQwoMrLyRlCsqZLyyf4oi6wpduRn6DFCsIgtMyP2Q09D6bQp5iwziVRSlSAk16m6Gld9U5VqZoB3xoIoCEQjqjWbyKAyZWGvP8EXfn8URFeQprAaupqsMsSSZ0wvqlFF6oDsL8t26rqV2Xkz6GIIAgurMIspQ9QPW5A0jZlEuepFSYiKqJIYEMnppBp64a6yquUVmTc8AcPINRklamQ0Jm4MJZtVzKSvMWt5kwtZM5GRUbLVXD5hFqYbAAA=') format('woff2'), url('iconfont.woff?t=1594948148301') format('woff'), url('iconfont.ttf?t=1594948148301') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1594948148301#iconfont') format('svg');
+  /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-dj:before {
+  content: "\e606";
+}
+
+.icon-ej:before {
+  content: "\e530";
+}
+
+.icon-sq:before {
+  content: "\e985";
+}
