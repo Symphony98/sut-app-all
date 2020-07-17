@@ -1,23 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/pages/Home'
-// import product from '@/pages/Home/product'
-
-import allRoutes from './allRoutes'
+//解决路由导航到统一路径重复报错的问题
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 Vue.use(VueRouter)
 const routes = [
   {
     path: '/login',
     component: () => import(/* webpackChunkName:'login' */ '../pages/Login')
-  },
-  {
-    path: '/',
-    component: Home,
-    children: allRoutes
-  },
-  {
-    path: '*',
-    component: () => import(/* webpackChunkName:'page404' */ '../pages/page404')
   }
 ]
 

@@ -17,7 +17,7 @@
         </el-form-item>
         <el-form-item label="密码"
                       prop="password">
-          <el-input type="text"
+          <el-input type="password"
                     @keydown.native.enter="submitForm('loginForm')"
                     v-model="loginForm.password"
                     autocomplete="off"></el-input>
@@ -96,7 +96,7 @@
                   // 将token存入本地
                   localStorage.setItem('wf-token', res.data.token)
                   // 页面跳转到主页
-                  this.$router.push('/')
+                  this.$router.push('/Welcome')
                   this.$message('登入成功')
                 } else {
                   // 提示用户 账户密码错误

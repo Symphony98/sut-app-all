@@ -27,11 +27,10 @@ axios.interceptors.request.use(config => {
 
 axios.interceptors.response.use(config => {
   const { data } = config
-  console.log(data)
   if (data) {
     // 如果后台返回1004状态码 则表示校验失败 返回10022表示后台登入态失效 页面需要跳转到登入页
     if (data.code === '1004' || data.code === '10022') {
-      console.log('进入了')
+      localStorage.removeItem('wf-token')
       router.push('/login')
     } else {
       // 放行
