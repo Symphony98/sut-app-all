@@ -15,6 +15,7 @@
       </el-submenu>
       <!-- 常规菜单 -->
       <el-menu-item v-else
+                    :index="item.path"
                     @click="jumpRoute(item.name)">
         <i :class="item.meta.icon"
            style="margin-right:10px;font-size:20px"></i>
@@ -48,4 +49,7 @@
   }
 </script>
 <style>
+  i.iconfont {
+    color: #4e5bf8;
+  }
 </style>

@@ -18,7 +18,6 @@ export default new Vuex.Store({
       //找到"/"路径的路由 因为所有的路由页面都是它的children
       let target = DynamicRoutes.find(item => item.path === '/')
       target.children = [...state.sideMenu]
-      console.log(DynamicRoutes)
       router.addRoutes(DynamicRoutes)
     },
     CLEAR_SIDEMENU(state) {

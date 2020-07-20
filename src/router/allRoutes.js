@@ -33,7 +33,7 @@ const allRoutes = [
                 component: studentProduct,
                 meta: {
                     name: '学员项目管理',
-                    icon: "iconfont icon-xueyuan"
+                    icon: "iconfont icon-wode1"
                 }
             },
             {
@@ -42,7 +42,7 @@ const allRoutes = [
                 component: studentProfile,
                 meta: {
                     name: '学员资料',
-                    icon: "iconfont icon-xueyuan"
+                    icon: "iconfont icon-kaoqin2"
                 }
             },
             {
@@ -51,7 +51,7 @@ const allRoutes = [
                 component: studentDormitory,
                 meta: {
                     name: '学员宿舍',
-                    icon: "iconfont icon-xueyuan"
+                    icon: "iconfont icon-shuju2"
                 }
             }
         ]

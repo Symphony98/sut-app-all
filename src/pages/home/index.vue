@@ -6,7 +6,8 @@
         <h1 class="logo"></h1>
         <el-menu default-active="1-4"
                  class="el-menu-vertical-demo"
-                 :router="true"
+                 text-color="#4e5bf8"
+                 active-text-color="#E47833"
                  :collapse="isCollapse">
           <subMenu :sideMenu='sideMenu'></subMenu>
         </el-menu>
@@ -43,6 +44,13 @@
         </el-header>
         <!-- main内容布局 -->
         <el-main>
+          <!-- 面包屑 -->
+          <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>活动管理</el-breadcrumb-item>
+            <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+            <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+          </el-breadcrumb>
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -141,12 +149,11 @@
     border-right: solid 1px #48a916 !important;
   }
   .el-main {
-    background-color: #e9eef3;
+    background-color: #fff;
     color: #333;
     -webkit-box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.29);
     box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.29);
     text-align: center;
-    line-height: 160px;
   }
 
   body > .el-container {

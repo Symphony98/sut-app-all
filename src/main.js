@@ -25,7 +25,8 @@ router.beforeEach((to, from, next) => {
     if (token) {
       //判断vuex中sideMenu是不是一个空数组 如果是空数组,那么要触发action获取用户菜单
       let { sideMenu } = store.state
-      if (sideMenu && sideMenu.length) {
+      console.log(sideMenu)
+      if (sideMenu && sideMenu.length > 0) {
         next()
       } else {
         store.dispatch("FETCH_MENULIST")
@@ -33,8 +34,6 @@ router.beforeEach((to, from, next) => {
             next({ path: to.path })//这里要注意, next里面要传参数即要进入的页面的路由信息，因为next传参数后，当前要进入的路由会被废止，转而进入参数对应的路由，虽然是同一个路由，这么做主要是为了确保addRoutes生效了。
           })
       }
-
-
     } else { // 跳转到登入页
       next({ path: '/login' })
     }
