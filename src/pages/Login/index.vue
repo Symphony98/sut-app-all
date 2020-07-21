@@ -97,7 +97,7 @@
                   localStorage.setItem('wf-token', res.data.token)
                   // 页面跳转到主页
                   this.$router.push('/Welcome')
-                  this.$message('登入成功')
+                  this.$message.success('登入成功,正则跳转...')
                 } else {
                   // 提示用户 账户密码错误
                   this.$message.error('账户密码错误')

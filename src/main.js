@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
     if (token) {
       // 判断vuex中sideMenu是不是一个空数组 如果是空数组,那么要触发action获取用户菜单
       const { sideMenu } = store.state
-      console.log(sideMenu)
+ 
       if (sideMenu && sideMenu.length > 0) {
         next()
       } else {

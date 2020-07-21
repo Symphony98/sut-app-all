@@ -23,3 +23,13 @@ export const addStuDetail = (stuDetail) => axios({
   method: 'post',
   data: stuDetail
 })
+//删除学员
+export const delStu = (sId) => axios.get(`/students/delstu?sId=${sId}`)
+//编辑学员信息
+export const updateStu = (updated = {}) => axios({
+  url: '/students/updatestu',
+  method: 'post',
+  data: updated
+})
+//搜索学员
+export const searchStu = (key) => axios.get(`/students/searchstu?key=${key}`)

@@ -1,6 +1,6 @@
 <template>
   <!-- dialog窗口 用于添加和编辑的弹窗-->
-  <el-dialog title="增加学员项目"
+  <el-dialog :title="dialogInfo.title"
              :visible.sync="dialogVisible">
     <el-form :model="stuForm"
              :rules="stuRules"
@@ -8,12 +8,12 @@
       <el-form-item label="头像">
         <el-upload class="uploadAvatar"
                    ref="uploadAvatar"
-                   action="http://chst.vip:1901/students/uploadStuAvatar"
+                   action="http://chst.vip/students/uploadStuAvatar"
                    list-type="picture-card"
                    :on-success="uploadSuccess"
                    :on-remove="removeAvatar"
                    :limit="1"
-                   name="avatar"
+                   name="headimgurl"
                    :multiple="false">
           <i class="el-icon-plus"></i>
         </el-upload>
@@ -65,89 +65,120 @@
   </el-dialog>
 </template>
 <script>
-import { addStuDetail } from '@/api'
-export default {
-  data () {
-    return {
-      showAvatar: true,
-      dialogVisible: false,
-      stuRules: {
-        name: [
-          { required: true, message: '请输入名字', trigger: 'blur' }
-        ],
-        class: [
-          { required: true, message: '请输入班级', trigger: 'blur' }
-        ],
-        degree: [
-          { required: true, message: '请输入学历', trigger: 'blur' }
-        ],
-        city: [
-          { required: true, message: '请输入城市', trigger: 'blur' }
-        ],
-        productUrl: [
-          { required: true, message: '请输入项目地址', trigger: 'blur' }
-        ],
-        age: [
-          { required: true, message: '请输入年龄', trigger: 'blur' }
-        ],
-        description: [
-          { required: true, message: '请输入描述', trigger: 'blur' }
-        ]
+  // import api from '@/api'
+  const api = require('@/api')
+  export default {
+    data() {
+      return {
+        dialogInfo: {
+          title: "增加学员信息",
+          requestName: "",
+          editSuccessMsg: "增加成功",
+          editerrorMsg: "增加失败"
+        },
+        showAvatar: true,
+        dialogVisible: false,
+        stuRules: {
+          name: [
+            { required: true, message: '请输入名字', trigger: 'blur' }
+          ],
+          class: [
+            { required: true, message: '请输入班级', trigger: 'blur' }
+          ],
+          degree: [
+            { required: true, message: '请输入学历', trigger: 'blur' }
+          ],
+          city: [
+            { required: true, message: '请输入城市', trigger: 'blur' }
+          ],
+          productUrl: [
+            { required: true, message: '请输入项目地址', trigger: 'blur' }
+          ],
+          age: [
+            { required: true, message: '请输入年龄', trigger: 'blur' }
+          ],
+          description: [
+            { required: true, message: '请输入描述', trigger: 'blur' }
+          ]
+        },
+        stuForm: {
+          name: '',
+          productUrl: '',
+          headimgurl: '',
+          class: '',
+          age: '',
+          city: '',
+          degree: '',
+          description: ''
+        }
+      }
+    },
+    mounted() {
+      //增加学员信息通过bus发送过来的事件
+      this.$bus.$on('showDialog', () => {
+        this.dialogInfo.title = "增加学员信息"
+        this.dialogInfo.requestName = "addStuDetail"
+        this.dialogInfo.editSuccessMsg = "增加成功"
+        this.dialogInfo.editerrorMsg = "增加失败,缺少字段"
+        this.dialogVisible = true
+      })
+      //编辑学员信息发送过来的事件
+      this.$bus.$on('editStuEvent', (row) => {
+        //1.弹出dialog
+        this.dialogVisible = true
+        //2.数据回显
+        this.stuForm = { ...row }
+        // 更改dialog的标题
+        this.dialogInfo.title = "编辑学员信息"
+        this.dialogInfo.requestName = "updateStu"
+        this.dialogInfo.editSuccessMsg = "修改成功"
+        this.dialogInfo.editerrorMsg = "修改失败"
+        //3.更改提交
+      })
+    },
+    methods: {
+      uploadSuccess(r) {
+        // 上传成功 给stuForm添加一条 headimgurl的属性
+        this.stuForm.headimgurl = r.headimgurl
+        console.log(r)
       },
-      stuForm: {
-        name: '',
-        productUrl: '',
-        avatarUrl: '',
-        class: '',
-        age: '',
-        city: '',
-        degree: '',
-        description: ''
+      removeAvatar(r) {
+        this.stuForm.headimgurl = ''
+      },
+      confirmClick(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            // 本地表单校验通 将表单信息提交到后台
+            // 关闭 dialog
+            this.dialogVisible = false
+            //增加
+
+            api[this.dialogInfo.requestName](this.stuForm)
+              .then(res => {
+                if (res.data && res.data.state) {
+                  // 提示添加成功 更新表格
+                  this.$message.success(this.dialogInfo.editSuccessMsg)
+                  this.$bus.$emit('updateStuTable')
+                  // 清空stuForm数据对象
+                  if (this.stuForm['_id']) delete this.stuForm['_id'];//清理_id字段 防止bug
+                  Object.keys(this.stuForm).forEach(key => this.stuForm[key] = '')
+                  this.$refs['uploadAvatar'].clearFiles() //清空上传文件
+                } else {
+                  this.$message.warning(this.dialogInfo.editerrorMsg)
+                }
+              }).catch(err => {
+                this.$message.error('登入过期网络错误')
+              })
+
+            //编辑
+
+          } else {
+            this.$message.error('请将内容填写完整')
+          }
+        })
       }
     }
-  },
-  mounted () {
-    this.$bus.$on('showDialog', () => {
-      this.dialogVisible = true
-    })
-  },
-  methods: {
-    uploadSuccess (r) {
-      // 上传成功 给stuForm添加一条 avatarUrl的属性
-      this.stuForm.avatarUrl = r.avatarUrl
-      console.log(r)
-    },
-    removeAvatar (r) {
-      this.stuForm.avatarUrl = ''
-    },
-    confirmClick (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          // 本地表单校验通 将表单信息提交到后台
-          // 关闭 dialog
-          this.dialogVisible = false
-          addStuDetail(this.stuForm)
-            .then(res => {
-              if (res.data && res.data.state) {
-                // 提示添加成功 更新表格
-                this.$message.success('添加成功')
-                this.$bus.$emit('updateStuTable')
-                // 清空stuForm数据对象
-                Object.keys(this.stuForm).forEach(key => this.stuForm[key] = '')
-                this.$refs['uploadAvatar'].clearFiles() //清空上传文件
-              } else {
-                this.$message.warning('添加失败,缺少字段')
-              }
-            }).catch(err => {
-              this.$message.error('网络错误')
-            })
-        } else {
-          this.$message.error('请将内容填写完整')
-        }
-      })
-    }
   }
-}
 </script>
 <style>
   .uploadAvatar {
