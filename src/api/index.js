@@ -14,3 +14,12 @@ export const getLoginLog = () => axios.get('/getloginlog')
 
 //获取用户菜单
 export const getMenuList = () => axios.get('/permission/getMenuList')
+
+//获取学员信息
+export const getStuList = () => axios.get('/students/getstulist')
+//增加学员信息
+export const addStuDetail = (stuDetail) => axios({
+  url: '/students/addstu',
+  method: 'post',
+  data: stuDetail
+})

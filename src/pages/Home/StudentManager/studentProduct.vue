@@ -24,12 +24,13 @@
                  icon="el-icon-search"
                  plain></el-button>
       <!-- 添加按钮 -->
-      <el-button type="primary">添加项目</el-button>
+      <el-button type="primary"
+                 @click="addStu">添加项目</el-button>
     </div>
     <!-- 班级选择 -->
     <div class="select-class">
       <!-- 框框 -->
-      <el-select v-model="value8"
+      <!-- <el-select v-model="value8"
                  filterable
                  placeholder="请选择">
         <el-option v-for="item in options"
@@ -37,26 +38,42 @@
                    :label="item.label"
                    :value="item.value">
         </el-option>
-      </el-select>
+      </el-select> -->
     </div>
     <!-- 表格 -->
     <div class="stu-table">
-
-      <el-table :data="tableData"
+      <el-table :data="stuData"
+                v-loading="loading"
                 border
                 style="width: 100%">
-        <el-table-column prop="date"
-                         label="日期"
-                         width="180">
+        <el-table-column prop="avatarUrl"
+                         align="center"
+                         label="头像"
+                         width="80">
+          <template scope="scope">
+            <img :src="scope.row.avatarUrl"
+                 width="70"
+                 alt="">
+          </template>
         </el-table-column>
         <el-table-column prop="name"
+                         align="center"
                          label="姓名"
                          width="180">
         </el-table-column>
-        <el-table-column prop="address"
-                         label="地址">
+        <el-table-column prop="class"
+                         align="center"
+                         label="班级">
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column prop="productUrl"
+                         align="center"
+                         label="项目">
+        </el-table-column>
+        <el-table-column align="center"
+                         label="操作">
+          <el-button type="primary"
+                     class="btn"
+                     icon="el-icon-view">查看</el-button>
           <el-button type="primary"
                      class="btn"
                      icon="el-icon-edit">编辑</el-button>
@@ -65,102 +82,96 @@
                      icon="el-icon-delete">删除</el-button>
         </el-table-column>
       </el-table>
-
     </div>
-    <!-- dialog -->
+    <!-- 分页器 -->
+    <div class="pagination">
+      <el-pagination background
+                     layout="prev, pager, next"
+                     :total="30">
+      </el-pagination>
+    </div>
+    <!-- dialog弹出框 -->
     <qf-dialog></qf-dialog>
   </div>
 </template>
 <script>
-  import dialog from "../../../components/dialog"
+  import dialog from '../../../components/dialog';
+  import { getStuList } from "@/api";
   export default {
     components: {
-      "qf-dialog": dialog
+      'qf-dialog': dialog
     },
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }],
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
+        //表格的数据对象
+        stuData: [],
+        //表格加载动画控制
+        loading: true,
         value8: '',
         options4: [],
         value9: [],
         list: [],
-        loading: false,
-        states: ["Alabama", "Alaska", "Arizona",
-          "Arkansas", "California", "Colorado",
-          "Connecticut", "Delaware", "Florida",
-          "Georgia", "Hawaii", "Idaho", "Illinois",
-          "Indiana", "Iowa", "Kansas", "Kentucky",
-          "Louisiana", "Maine", "Maryland",
-          "Massachusetts", "Michigan", "Minnesota",
-          "Mississippi", "Missouri", "Montana",
-          "Nebraska", "Nevada", "New Hampshire",
-          "New Jersey", "New Mexico", "New York",
-          "North Carolina", "North Dakota", "Ohio",
-          "Oklahoma", "Oregon", "Pennsylvania",
-          "Rhode Island", "South Carolina",
-          "South Dakota", "Tennessee", "Texas",
-          "Utah", "Vermont", "Virginia",
-          "Washington", "West Virginia", "Wisconsin",
-          "Wyoming"]
+        states: ['Alabama', 'Alaska', 'Arizona',
+          'Arkansas', 'California', 'Colorado',
+          'Connecticut', 'Delaware', 'Florida',
+          'Georgia', 'Hawaii', 'Idaho', 'Illinois',
+          'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+          'Louisiana', 'Maine', 'Maryland',
+          'Massachusetts', 'Michigan', 'Minnesota',
+          'Mississippi', 'Missouri', 'Montana',
+          'Nebraska', 'Nevada', 'New Hampshire',
+          'New Jersey', 'New Mexico', 'New York',
+          'North Carolina', 'North Dakota', 'Ohio',
+          'Oklahoma', 'Oregon', 'Pennsylvania',
+          'Rhode Island', 'South Carolina',
+          'South Dakota', 'Tennessee', 'Texas',
+          'Utah', 'Vermont', 'Virginia',
+          'Washington', 'West Virginia', 'Wisconsin',
+          'Wyoming']
 
       }
     },
     methods: {
-      clear(e) {
-        console.log(e)
+      //增加学员
+      addStu() {
+        //弹出dialog
+        this.$bus.$emit('showDialog')
+        // addStuDetail()
+        //   .then(res => {
+
+        //   })
       },
-      remoteMethod(query) {
-        if (query !== '') {
-          this.loading = true;
-          setTimeout(() => {
+      //更新表格数据
+      updateStuTable() {
+        this.loading = true;
+        getStuList()
+          .then(res => {
+            if (res.data && res.data.state) {
+              this.stuData = res.data.data
+              this.loading = false;
+            } else {
+              this.$message.warning('数据获取失败');
+              this.loading = false;
+            }
+          })
+          .catch(err => {
+            console.log(err.message);
+            this.$message.error('获取数据出错或者网络错误');
             this.loading = false;
-            this.options4 = this.list.filter(item => {
-              return item.label.toLowerCase()
-                .indexOf(query.toLowerCase()) > -1;
-            });
-          }, 200);
-        } else {
-          this.options4 = [];
-        }
+          })
+      },
+      clear(e) { },
+      remoteMethod(query) {
+
       }
     },
     mounted() {
-      this.list = this.states.map(item => {
-        return { value: item, label: item };
-      });
-    },
+      // 页面加载 获取表格数据
+      this.updateStuTable()
+      this.$bus.$on('updateStuTable', () => {
+        this.updateStuTable()
+      })
+    }
   }
 </script>
 <style scoped>
@@ -178,5 +189,8 @@
     width: 65px;
     height: 25px;
     padding: 0;
+  }
+  .pagination {
+    margin-top: 20px;
   }
 </style>

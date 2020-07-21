@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import bus from "./uitils/bus"
+Vue.prototype.$bus = bus;
 // 引入element-ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -23,15 +25,15 @@ router.beforeEach((to, from, next) => {
     // 判断是否登入 判断是否有token
     const token = localStorage.getItem('wf-token')
     if (token) {
-      //判断vuex中sideMenu是不是一个空数组 如果是空数组,那么要触发action获取用户菜单
-      let { sideMenu } = store.state
+      // 判断vuex中sideMenu是不是一个空数组 如果是空数组,那么要触发action获取用户菜单
+      const { sideMenu } = store.state
       console.log(sideMenu)
       if (sideMenu && sideMenu.length > 0) {
         next()
       } else {
-        store.dispatch("FETCH_MENULIST")
+        store.dispatch('FETCH_MENULIST')
           .then(function () {
-            next({ path: to.path })//这里要注意, next里面要传参数即要进入的页面的路由信息，因为next传参数后，当前要进入的路由会被废止，转而进入参数对应的路由，虽然是同一个路由，这么做主要是为了确保addRoutes生效了。
+            next({ path: to.path })// 这里要注意, next里面要传参数即要进入的页面的路由信息，因为next传参数后，当前要进入的路由会被废止，转而进入参数对应的路由，虽然是同一个路由，这么做主要是为了确保addRoutes生效了。
           })
       }
     } else { // 跳转到登入页

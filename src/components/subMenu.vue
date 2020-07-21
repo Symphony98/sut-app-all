@@ -25,28 +25,28 @@
   </div>
 </template>
 <script>
-  export default {
-    name: "sub-menu",//给组件取名字之后 可以递归
-    props: {
-      sideMenu: {
-        type: Array,
-        default: () => [] //定义默认数据
-      }
-    },
-    data() {
-      return {
-        isCollapse: false
-      }
-    },
-    methods: {
-      jumpRoute(name) {
-        this.$router.push({ name })
-      }
-    },
-    mounted() {
-      console.log(this.sideMenu)
+export default {
+  name: 'sub-menu', // 给组件取名字之后 可以递归
+  props: {
+    sideMenu: {
+      type: Array,
+      default: () => [] // 定义默认数据
     }
+  },
+  data () {
+    return {
+      isCollapse: false
+    }
+  },
+  methods: {
+    jumpRoute (name) {
+      this.$router.push({ name })
+    }
+  },
+  mounted () {
+    console.log(this.sideMenu)
   }
+}
 </script>
 <style>
   i.iconfont {
