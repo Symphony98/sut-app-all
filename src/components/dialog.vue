@@ -8,12 +8,12 @@
       <el-form-item label="头像">
         <el-upload class="uploadAvatar"
                    ref="uploadAvatar"
-                   action="http://chst.vip/students/uploadStuAvatar"
+                   action="http://chst.vip:1901/students/uploadStuAvatar"
                    list-type="picture-card"
                    :on-success="uploadSuccess"
                    :on-remove="removeAvatar"
                    :limit="1"
-                   name="headimgurl"
+                   name="avatar"
                    :multiple="false">
           <i class="el-icon-plus"></i>
         </el-upload>
@@ -65,89 +65,89 @@
   </el-dialog>
 </template>
 <script>
-  import { addStuDetail } from "@/api"
-  export default {
-    data() {
-      return {
-        showAvatar: true,
-        dialogVisible: false,
-        stuRules: {
-          name: [
-            { required: true, message: '请输入名字', trigger: 'blur' }
-          ],
-          class: [
-            { required: true, message: '请输入班级', trigger: 'blur' }
-          ],
-          degree: [
-            { required: true, message: '请输入学历', trigger: 'blur' }
-          ],
-          city: [
-            { required: true, message: '请输入城市', trigger: 'blur' }
-          ],
-          productUrl: [
-            { required: true, message: '请输入项目地址', trigger: 'blur' }
-          ],
-          age: [
-            { required: true, message: '请输入年龄', trigger: 'blur' }
-          ],
-          description: [
-            { required: true, message: '请输入描述', trigger: 'blur' }
-          ]
-        },
-        stuForm: {
-          name: '',
-          productUrl: '',
-          avatarUrl: '',
-          class: '',
-          age: '',
-          city: '',
-          degree: '',
-          description: ''
-        }
-      }
-    },
-    mounted() {
-      this.$bus.$on('showDialog', () => {
-        this.dialogVisible = true;
-      })
-    },
-    methods: {
-      uploadSuccess(r) {
-        //上传成功 给stuForm添加一条 avatarUrl的属性
-        this.stuForm.avatarUrl = r.avatarUrl;
-        console.log(r)
+import { addStuDetail } from '@/api'
+export default {
+  data () {
+    return {
+      showAvatar: true,
+      dialogVisible: false,
+      stuRules: {
+        name: [
+          { required: true, message: '请输入名字', trigger: 'blur' }
+        ],
+        class: [
+          { required: true, message: '请输入班级', trigger: 'blur' }
+        ],
+        degree: [
+          { required: true, message: '请输入学历', trigger: 'blur' }
+        ],
+        city: [
+          { required: true, message: '请输入城市', trigger: 'blur' }
+        ],
+        productUrl: [
+          { required: true, message: '请输入项目地址', trigger: 'blur' }
+        ],
+        age: [
+          { required: true, message: '请输入年龄', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '请输入描述', trigger: 'blur' }
+        ]
       },
-      removeAvatar(r) {
-        this.stuForm.avatarUrl = "";
-      },
-      confirmClick(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            //本地表单校验通 将表单信息提交到后台
-            //关闭 dialog
-            this.dialogVisible = false;
-            addStuDetail(this.stuForm)
-              .then(res => {
-                if (res.data && res.data.state) {
-                  //提示添加成功 更新表格
-                  this.$message.success("添加成功")
-                  this.$bus.$emit('updateStuTable')
-                  //清空stuForm数据对象
-                  Object.keys(this.stuForm).forEach(key => this.stuForm[key] = '')
-                  this.$refs['uploadAvatar'].clearFiles()
-                } else {
-                  this.$message.warning('添加失败,缺少字段')
-                }
-              }).catch(err => {
-                this.$message.error('网络错误')
-              })
-          } else {
-            this.$message.error('请将内容填写完整')
-          }
-        })
+      stuForm: {
+        name: '',
+        productUrl: '',
+        avatarUrl: '',
+        class: '',
+        age: '',
+        city: '',
+        degree: '',
+        description: ''
       }
     }
+  },
+  mounted () {
+    this.$bus.$on('showDialog', () => {
+      this.dialogVisible = true
+    })
+  },
+  methods: {
+    uploadSuccess (r) {
+      // 上传成功 给stuForm添加一条 avatarUrl的属性
+      this.stuForm.avatarUrl = r.avatarUrl
+      console.log(r)
+    },
+    removeAvatar (r) {
+      this.stuForm.avatarUrl = ''
+    },
+    confirmClick (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // 本地表单校验通 将表单信息提交到后台
+          // 关闭 dialog
+          this.dialogVisible = false
+          addStuDetail(this.stuForm)
+            .then(res => {
+              if (res.data && res.data.state) {
+                // 提示添加成功 更新表格
+                this.$message.success('添加成功')
+                this.$bus.$emit('updateStuTable')
+                // 清空stuForm数据对象
+                Object.keys(this.stuForm).forEach(key => this.stuForm[key] = '')
+                this.$refs['uploadAvatar'].clearFiles() //清空上传文件
+              } else {
+                this.$message.warning('添加失败,缺少字段')
+              }
+            }).catch(err => {
+              this.$message.error('网络错误')
+            })
+        } else {
+          this.$message.error('请将内容填写完整')
+        }
+      })
+    }
   }
+}
 </script>
 <style>
   .uploadAvatar {

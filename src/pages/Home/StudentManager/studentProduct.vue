@@ -95,84 +95,84 @@
   </div>
 </template>
 <script>
-  import dialog from '../../../components/dialog';
-  import { getStuList } from "@/api";
-  export default {
-    components: {
-      'qf-dialog': dialog
-    },
-    data() {
-      return {
-        //表格的数据对象
-        stuData: [],
-        //表格加载动画控制
-        loading: true,
-        value8: '',
-        options4: [],
-        value9: [],
-        list: [],
-        states: ['Alabama', 'Alaska', 'Arizona',
-          'Arkansas', 'California', 'Colorado',
-          'Connecticut', 'Delaware', 'Florida',
-          'Georgia', 'Hawaii', 'Idaho', 'Illinois',
-          'Indiana', 'Iowa', 'Kansas', 'Kentucky',
-          'Louisiana', 'Maine', 'Maryland',
-          'Massachusetts', 'Michigan', 'Minnesota',
-          'Mississippi', 'Missouri', 'Montana',
-          'Nebraska', 'Nevada', 'New Hampshire',
-          'New Jersey', 'New Mexico', 'New York',
-          'North Carolina', 'North Dakota', 'Ohio',
-          'Oklahoma', 'Oregon', 'Pennsylvania',
-          'Rhode Island', 'South Carolina',
-          'South Dakota', 'Tennessee', 'Texas',
-          'Utah', 'Vermont', 'Virginia',
-          'Washington', 'West Virginia', 'Wisconsin',
-          'Wyoming']
+import dialog from '../../../components/dialog'
+import { getStuList } from '@/api'
+export default {
+  components: {
+    'qf-dialog': dialog
+  },
+  data () {
+    return {
+      // 表格的数据对象
+      stuData: [],
+      // 表格加载动画控制
+      loading: true,
+      value8: '',
+      options4: [],
+      value9: [],
+      list: [],
+      states: ['Alabama', 'Alaska', 'Arizona',
+        'Arkansas', 'California', 'Colorado',
+        'Connecticut', 'Delaware', 'Florida',
+        'Georgia', 'Hawaii', 'Idaho', 'Illinois',
+        'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+        'Louisiana', 'Maine', 'Maryland',
+        'Massachusetts', 'Michigan', 'Minnesota',
+        'Mississippi', 'Missouri', 'Montana',
+        'Nebraska', 'Nevada', 'New Hampshire',
+        'New Jersey', 'New Mexico', 'New York',
+        'North Carolina', 'North Dakota', 'Ohio',
+        'Oklahoma', 'Oregon', 'Pennsylvania',
+        'Rhode Island', 'South Carolina',
+        'South Dakota', 'Tennessee', 'Texas',
+        'Utah', 'Vermont', 'Virginia',
+        'Washington', 'West Virginia', 'Wisconsin',
+        'Wyoming']
 
-      }
-    },
-    methods: {
-      //增加学员
-      addStu() {
-        //弹出dialog
-        this.$bus.$emit('showDialog')
-        // addStuDetail()
-        //   .then(res => {
-
-        //   })
-      },
-      //更新表格数据
-      updateStuTable() {
-        this.loading = true;
-        getStuList()
-          .then(res => {
-            if (res.data && res.data.state) {
-              this.stuData = res.data.data
-              this.loading = false;
-            } else {
-              this.$message.warning('数据获取失败');
-              this.loading = false;
-            }
-          })
-          .catch(err => {
-            console.log(err.message);
-            this.$message.error('获取数据出错或者网络错误');
-            this.loading = false;
-          })
-      },
-      clear(e) { },
-      remoteMethod(query) {
-
-      }
-    },
-    mounted() {
-      // 页面加载 获取表格数据
-      this.updateStuTable()
-      this.$bus.$on('updateStuTable', () => {
-        this.updateStuTable()
-      })
     }
+  },
+  methods: {
+    // 增加学员
+    addStu () {
+      // 弹出dialog
+      this.$bus.$emit('showDialog')
+      // addStuDetail()
+      //   .then(res => {
+
+      //   })
+    },
+    // 更新表格数据
+    updateStuTable () {
+      this.loading = true
+      getStuList()
+        .then(res => {
+          if (res.data && res.data.state) {
+            this.stuData = res.data.data
+            this.loading = false
+          } else {
+            this.$message.warning('数据获取失败')
+            this.loading = false
+          }
+        })
+        .catch(err => {
+          console.log(err.message)
+          this.$message.error('获取数据出错或者网络错误')
+          this.loading = false
+        })
+    },
+    clear (e) { },
+    remoteMethod (query) {
+
+    }
+  },
+  mounted () {
+    // 页面加载 获取表格数据
+    this.updateStuTable()
+    this.$bus.$on('updateStuTable', () => {
+      this.updateStuTable()
+    })
   }
+}
 </script>
 <style scoped>
   .search {

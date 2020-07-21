@@ -2,8 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import bus from "./uitils/bus"
-Vue.prototype.$bus = bus;
+import bus from './uitils/bus'
 // 引入element-ui
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -12,6 +11,7 @@ import './assets/css/global.css'
 import '@/assets/css/el-reset.css'
 // 引入图标样式
 import '@/assets/iconFonts/iconfont.css'
+Vue.prototype.$bus = bus
 Vue.use(ElementUI)
 // Vue.config.productionTip = false
 
