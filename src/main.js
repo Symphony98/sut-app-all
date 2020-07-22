@@ -11,10 +11,29 @@ import './assets/css/global.css'
 import '@/assets/css/el-reset.css'
 // 引入图标样式
 import '@/assets/iconFonts/iconfont.css'
+//引入鉴权的方法
+import has from "./uitils/has"
+Vue.prototype.$has = has;
 Vue.prototype.$bus = bus
 Vue.use(ElementUI)
 // Vue.config.productionTip = false
-
+//定义全局自定义指令 判断是否具备相应按钮权限
+Vue.directive("haspermission", {
+ 
+  bind(el, binding, VNode) {
+    // console.log(el)
+    let buttons = localStorage.getItem("wf-permission-buttons")
+    if (!has(buttons,binding.value)) {
+      //禁用按钮
+      // console.log(el.className)
+      //先储存class类名 在这基础上加上is-disabled禁用按钮
+      let className = el.className;
+      el.className = className + " " + "is-disabled"
+      el.disabled = true
+      // console.log(el)
+    }
+  }
+})
 // 路由守卫
 router.beforeEach((to, from, next) => {
   // 注册和登入可以给用户访问
@@ -27,7 +46,7 @@ router.beforeEach((to, from, next) => {
     if (token) {
       // 判断vuex中sideMenu是不是一个空数组 如果是空数组,那么要触发action获取用户菜单
       const { sideMenu } = store.state
- 
+
       if (sideMenu && sideMenu.length > 0) {
         next()
       } else {

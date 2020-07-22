@@ -2,31 +2,44 @@
   <div class="login">
     <div class="left"></div>
     <div class="loginContainer">
-      <h1 class="title">万锋管理系统</h1>
-      <el-form :model="loginForm"
-               status-icon
-               :rules="rules"
-               ref="loginForm"
-               label-width="100px"
-               class="demo-loginForm">
-        <el-form-item label="用户名"
-                      prop="username">
-          <el-input type="text"
-                    v-model="loginForm.username"
-                    autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="密码"
-                      prop="password">
-          <el-input type="password"
-                    @keydown.native.enter="submitForm('loginForm')"
-                    v-model="loginForm.password"
-                    autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary"
-                     @click="submitForm('loginForm')">提交</el-button>
-        </el-form-item>
-      </el-form>
+      <h1 class="title">千锋管理系统</h1>
+      <i :class="['jiaobiao', 'iconfont',isWechat?'icon-diannaojiaobiao':'icon-erweimajiaobiao']"
+         @click="isWechat=!isWechat"></i>
+      <transition>
+        <!-- 二维码 -->
+        <div class="wechatLogin"
+             v-if="isWechat">
+          <img src="../../assets/imgs/erwei.png"
+               width="200"
+               alt="">
+          <p>请使用微信扫码登入</p>
+        </div>
+        <el-form v-else
+                 :model="loginForm"
+                 status-icon
+                 :rules="rules"
+                 ref="loginForm"
+                 label-width="100px"
+                 class="demo-loginForm">
+          <el-form-item label="用户名"
+                        prop="username">
+            <el-input type="text"
+                      v-model="loginForm.username"
+                      autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="密码"
+                        prop="password">
+            <el-input type="password"
+                      @keydown.native.enter="submitForm('loginForm')"
+                      v-model="loginForm.password"
+                      autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary"
+                       @click="submitForm('loginForm')">提交</el-button>
+          </el-form-item>
+        </el-form>
+      </transition>
     </div>
     <video class="bg_video"
            muted
@@ -60,6 +73,8 @@
         }
       }
       return {
+        isWechat: false,
+        jiaobiao: "icon-diannaojiaobiao",
         loginForm: {
           username: '',
           password: ''
@@ -93,8 +108,14 @@
                 loginLoading.close()
                 if (res.data && res.data.state) {
                   // 表示用户名密码正确
+                  //将用户信息储存到vuex中
+                  this.$store.commit("SET_USERINFO",res.data.userInfo)
+                  //将用户权限按钮保存在vuex中
+                  this.$store.commit("SET_PERMISSION_BUTTONS",res.data.permission.buttons)
                   // 将token存入本地
                   localStorage.setItem('wf-token', res.data.token)
+                  localStorage.setItem('wf-userInfo',JSON.stringify(res.data.userInfo))
+                  localStorage.setItem('wf-permission-buttons',JSON.stringify(res.data.permission.buttons))
                   // 页面跳转到主页
                   this.$router.push('/Welcome')
                   this.$message.success('登入成功,正则跳转...')
@@ -122,6 +143,18 @@
   }
 </script>
 <style scoped lang="less">
+  .v-enter,
+  .v-leave-to {
+    opacity: 0;
+  }
+  .v-enter-to,
+  .v-leave {
+    opacity: 1;
+  }
+  .v-enter-active,
+  .v-leave-active {
+    transition: all 2s;
+  }
   .login {
     height: 100%;
     width: 100%;
@@ -143,6 +176,24 @@
     background: rgba(83, 107, 182, 0.46);
     background: rgba(0, 0, 0, 0.2);
     text-align: center;
+    .jiaobiao {
+      width: 80px;
+      height: 80px;
+      overflow: hidden;
+      position: absolute;
+      right: -1px;
+      top: -2px;
+      font-size: 70px;
+      text-align: right;
+      color: #fff;
+      cursor: pointer;
+    }
+    .wechatLogin {
+      width: 100%;
+      text-align: center;
+      position: absolute;
+      color:#fff;
+    }
     .title {
       color: #fff;
       margin-top: 100px;
@@ -177,6 +228,6 @@
     background-position: 60% 65%;
   }
   .el-form.demo-loginForm {
-    padding: 0 50px 0 0;
+    position: absolute;
   }
 </style>

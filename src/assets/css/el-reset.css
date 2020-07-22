@@ -15,6 +15,7 @@
 /* 登入输入框颜色 */
 
 .loginContainer .el-input__inner {
+    width: 250px;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
     height: 40px;

@@ -16,7 +16,10 @@ export const getLoginLog = () => axios.get('/getloginlog')
 export const getMenuList = () => axios.get('/permission/getMenuList')
 
 // 获取学员信息
-export const getStuList = () => axios.get('/students/getstulist')
+export const getStuList = (params = {}) => axios({
+  url: "/students/getstulist",
+  params
+})
 // 增加学员信息
 export const addStuDetail = (stuDetail) => axios({
   url: '/students/addstu',
@@ -33,3 +36,6 @@ export const updateStu = (updated = {}) => axios({
 })
 //搜索学员
 export const searchStu = (key) => axios.get(`/students/searchstu?key=${key}`)
+
+//获取班级 /students/getclasses
+export const getClasses = () => axios.get(`/students/getclasses`)

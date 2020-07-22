@@ -29,21 +29,29 @@
       <!-- 添加按钮 -->
       <el-button type="primary"
                  @click="addStu"
-                 :disabled="disabled"
-                 >添加项目</el-button>
+                 v-haspermission="'add'"
+                 :disabled="disabled">添加项目</el-button>
     </div>
     <!-- 班级选择 -->
     <div class="select-class">
       <!-- 框框 -->
-      <!-- <el-select v-model="value8"
-                 filterable
-                 placeholder="请选择">
-        <el-option v-for="item in options"
-                   :key="item.value"
-                   :label="item.label"
-                   :value="item.value">
-        </el-option>
-      </el-select> -->
+      <el-form>
+        <el-form-item label="选择班级:">
+          <el-select v-model="classes"
+                     filterable
+                     @visible-change="classVisible"
+                     @change="classChange"
+                     placeholder="请选择">
+            <el-option label="全部"
+                       value="all"></el-option>
+            <el-option v-for="(item,index) in classOptions"
+                       :key="index"
+                       :label="item"
+                       :value="item">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
     </div>
     <!-- 表格 -->
     <div class="stu-table">
@@ -81,14 +89,17 @@
             <el-button type="primary"
                        class="btn"
                        icon="el-icon-view"
+                       v-haspermission="'read'"
                        @click="$router.push({name:'studentProfile'})">查看</el-button>
             <el-button type="primary"
                        class="btn"
                        icon="el-icon-edit"
+                       v-haspermission="'edit'"
                        @click="editStu(row)">编辑</el-button>
             <el-button type="danger"
                        class="btn"
                        icon="el-icon-delete"
+                       v-haspermission="'delete'"
                        @click="deleteStu(row)">删除</el-button>
           </template>
         </el-table-column>
@@ -107,19 +118,23 @@
 </template>
 <script>
   import dialog from '../../../components/dialog'
-  import { getStuList, delStu, searchStu } from '@/api'
+  import { getStuList, delStu, searchStu, getClasses } from '@/api'
   export default {
     components: {
       'qf-dialog': dialog
     },
     data() {
       return {
+        params: {
+          class: ""
+        },
+        classOptions: [],
         disabled: false,
         // 表格的数据对象
         stuData: [],
         // 表格加载动画控制
         loading: true,
-        value8: '',
+        classes: '',
         searchList: [],
         searchValue: [],
         blurSearchValue: "",
@@ -127,6 +142,22 @@
       }
     },
     methods: {
+      //班级选择框展开/收起触发的事件
+      classVisible(isVisible) {
+        if (!isVisible) return
+        //发送获取班级的请求
+        getClasses()
+          .then(res => {
+            if (res.data && res.data.state) {
+              this.classOptions = res.data.data
+            }
+          })
+      },
+      //选择班级
+      classChange(query) {
+        this.params = query === "all" ? {} : { class: query }
+        this.updateStuTable(this.params)
+      },
       searchButton() {
         // 点击搜索按钮
         this.loading = true
@@ -165,6 +196,7 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
+            this.loading = true
             //用户企鹅人删除
             //调用删除请求
             delStu(row.sId)
@@ -196,9 +228,9 @@
         this.$bus.$emit('showDialog')
       },
       // 更新表格数据
-      updateStuTable() {
+      updateStuTable(params) {
         this.loading = true
-        getStuList()
+        getStuList(params)
           .then(res => {
             if (res.data && res.data.state) {
               this.stuData = res.data.data

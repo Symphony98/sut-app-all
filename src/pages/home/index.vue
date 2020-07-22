@@ -26,7 +26,7 @@
             </el-col>
             <el-col :span="6">
               <div class="grid-content">
-                万锋管理系统
+                千锋管理系统
               </div>
             </el-col>
             <el-col :span="6">
@@ -36,6 +36,7 @@
                            fit="fill"
                            src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKL6Uj3HPlcico2jy2GBpKyqBjbWCuicAibQ0BRic2Pu8a1fBUzGH7YB6UOy4Tl1k3iacXrEeLPyzXvs5Q/132"></el-avatar>
                 <span>欢迎您:</span>
+                <span class="nickname">{{$store.state.userInfo.nickname}}</span>
                 <span class="quit"
                       @click="quit">退出</span>
               </div>
@@ -48,7 +49,7 @@
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>学员管理</el-breadcrumb-item>
-            <el-breadcrumb-item>考勤管理</el-breadcrumb-item>
+            <el-breadcrumb-item>项目管理</el-breadcrumb-item>
           </el-breadcrumb>
           <router-view></router-view>
         </el-main>
@@ -90,6 +91,14 @@
   }
 </script>
 <style scoped>
+  .nickname {
+    margin-left:10px;
+    color:#fff;
+    font-weight: 700;
+    font-size:20px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
   /* 退出按钮 */
   .quit {
     color: hotpink;

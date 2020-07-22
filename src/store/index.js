@@ -8,24 +8,36 @@ import recursionRoutes from '../uitils/recursionRoutes'
 // 引入allRoutes
 import allRoutes from '../router/allRoutes'
 Vue.use(Vuex)
+
+let userInfo = JSON.parse(localStorage.getItem('wf-userInfo')) || {};
+let permissionButtons = JSON.parse(localStorage.getItem('wf-permission-buttons')) || {};
+
 export default new Vuex.Store({
   state: {
-    sideMenu: []
+    sideMenu: [],
+    userInfo,
+    permissionButtons
   },
   mutations: {
-    SET_SIDEMENU (state, payload) { // 设置用户菜单
+    SET_SIDEMENU(state, payload) { // 设置用户菜单
       state.sideMenu = payload
       // 找到"/"路径的路由 因为所有的路由页面都是它的children
       const target = DynamicRoutes.find(item => item.path === '/')
       target.children = [...state.sideMenu]
       router.addRoutes(DynamicRoutes)
     },
-    CLEAR_SIDEMENU (state) {
+    CLEAR_SIDEMENU(state) {
       state.sideMenu = []
+    },
+    SET_USERINFO(state, payload) {
+      state.userInfo = payload
+    },
+    SET_PERMISSION_BUTTONS(state, payload) {
+      state.permissionButtons = payload
     }
   },
   actions: {
-    async FETCH_MENULIST ({ commit }) { // 获取用户菜单
+    async FETCH_MENULIST({ commit }) { // 获取用户菜单
       // 发起异步请求 获取用户菜单
       const res = await getMenuList()
       if (res && res.data) { // 得到结果了
