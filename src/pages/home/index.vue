@@ -47,9 +47,8 @@
           <!-- 面包屑 -->
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-            <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-            <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+            <el-breadcrumb-item>学员管理</el-breadcrumb-item>
+            <el-breadcrumb-item>考勤管理</el-breadcrumb-item>
           </el-breadcrumb>
           <router-view></router-view>
         </el-main>
@@ -58,37 +57,37 @@
   </div>
 </template>
 <script>
-import subMenu from '../../components/subMenu'
-import { mapState } from 'vuex'
-export default {
-  data () {
-    return {
-      // 控制menu是否收起
-      isCollapse: false
-    }
-  },
-  computed: {
-    ...mapState(['sideMenu'])
-  },
-  methods: {
-    quit () {
-      // 情况localstorage中的token
-      localStorage.removeItem('wf-token')
-      // 清空vuex中 sideMenu的数据
-      this.$store.commit('CLEAR_SIDEMENU')
-      // 跳转到登入页
-      this.$router.push('/login')
-      // 刷新页面
-      window.location.reload()
-    }
-  },
-  mounted () {
+  import subMenu from '../../components/subMenu'
+  import { mapState } from 'vuex'
+  export default {
+    data() {
+      return {
+        // 控制menu是否收起
+        isCollapse: false
+      }
+    },
+    computed: {
+      ...mapState(['sideMenu'])
+    },
+    methods: {
+      quit() {
+        // 情况localstorage中的token
+        localStorage.removeItem('wf-token')
+        // 清空vuex中 sideMenu的数据
+        this.$store.commit('CLEAR_SIDEMENU')
+        // 跳转到登入页
+        this.$router.push('/login')
+        // 刷新页面
+        window.location.reload()
+      }
+    },
+    mounted() {
 
-  },
-  components: {
-    subMenu
+    },
+    components: {
+      subMenu
+    }
   }
-}
 </script>
 <style scoped>
   /* 退出按钮 */
@@ -114,6 +113,7 @@ export default {
   .icon-sq {
     font-size: 30px;
     cursor: pointer;
+    color: #fff;
   }
   /* 修改avatar的样式 */
   .el-avatar.el-avatar--square,
@@ -170,6 +170,6 @@ export default {
   }
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
-    min-height: 400px;
+    min-height: 500px;
   }
 </style>

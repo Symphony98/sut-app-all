@@ -28,7 +28,9 @@
                  plain></el-button>
       <!-- 添加按钮 -->
       <el-button type="primary"
-                 @click="addStu">添加项目</el-button>
+                 @click="addStu"
+                 :disabled="disabled"
+                 >添加项目</el-button>
     </div>
     <!-- 班级选择 -->
     <div class="select-class">
@@ -53,7 +55,7 @@
                          align="center"
                          label="头像"
                          width="80">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-avatar shape="square"
                        :size="50"
                        fit="fill"
@@ -75,7 +77,7 @@
         </el-table-column>
         <el-table-column align="center"
                          label="操作">
-          <template scope="{row}">
+          <template slot-scope="{row}">
             <el-button type="primary"
                        class="btn"
                        icon="el-icon-view"
@@ -112,6 +114,7 @@
     },
     data() {
       return {
+        disabled: false,
         // 表格的数据对象
         stuData: [],
         // 表格加载动画控制
