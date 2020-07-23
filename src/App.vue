@@ -4,19 +4,19 @@
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        input: ''
-      }
-    },
-    methods: {
-      getD() { 
-         this.$store.dispatch("FETCH_MENULIST")
-      }
-    },
-    mounted() {
-    
+export default {
+  data () {
+    return {
+      input: ''
     }
+  },
+  methods: {
+    getD () {
+      this.$store.dispatch('FETCH_MENULIST')
+    }
+  },
+  mounted () {
+
   }
+}
 </script>

@@ -61,37 +61,37 @@
   </div>
 </template>
 <script>
-  import subMenu from '../../components/subMenu'
-  import { mapState } from 'vuex'
-  export default {
-    data() {
-      return {
-        // 控制menu是否收起
-        isCollapse: false
-      }
-    },
-    computed: {
-      ...mapState(['sideMenu', 'crumb'])
-    },
-    methods: {
-      quit() {
-        // 情况localstorage中的token
-        localStorage.removeItem('wf-token')
-        // 清空vuex中 sideMenu的数据
-        this.$store.commit('CLEAR_SIDEMENU')
-        // 跳转到登入页
-        this.$router.push('/login')
-        // 刷新页面
-        window.location.reload()
-      }
-    },
-    mounted() {
-      // this.$refs['sideMenu'].open({ index: "/welcome" })
-    },
-    components: {
-      subMenu
+import subMenu from '../../components/subMenu'
+import { mapState } from 'vuex'
+export default {
+  data () {
+    return {
+      // 控制menu是否收起
+      isCollapse: false
     }
+  },
+  computed: {
+    ...mapState(['sideMenu', 'crumb'])
+  },
+  methods: {
+    quit () {
+      // 情况localstorage中的token
+      localStorage.removeItem('wf-token')
+      // 清空vuex中 sideMenu的数据
+      this.$store.commit('CLEAR_SIDEMENU')
+      // 跳转到登入页
+      this.$router.push('/login')
+      // 刷新页面
+      window.location.reload()
+    }
+  },
+  mounted () {
+    // this.$refs['sideMenu'].open({ index: "/welcome" })
+  },
+  components: {
+    subMenu
   }
+}
 </script>
 <style scoped>
   .nickname {

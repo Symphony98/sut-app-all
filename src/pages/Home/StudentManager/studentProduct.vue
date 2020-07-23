@@ -125,243 +125,245 @@
   </div>
 </template>
 <script>
-  import dialog from '../../../components/dialog'
-  import { getStuList, delStu, searchStu, getClasses } from '@/api'
-  import qee from "qf-export-excel"
-  export default {
-    components: {
-      'qf-dialog': dialog
-    },
-    data() {
-      return {
-        params: {
-          class: "",
-          count: 5
-        },
-        dataPage: "",//页码
-        dataCount: 5,//每页展示的数量
-        total: 0,//总共的数据条数
-        classOptions: [],
-        disabled: false,
-        // 表格的数据对象
-        stuData: [],
-        // 表格加载动画控制
-        loading: true,
-        classes: '',
-        searchList: [],
-        searchValue: "",
-        blurSearchValue: "",
-        list: []
-      }
-    },
-    methods: {
-      //分页器页码发生改变的时候触发的事件
-      changePage(page) {
-        this.dataPage = page
-        //点击分页切换的时候 需要判断是否搜索了 如果搜索了 那么就应该在搜索结果中 进入第后面页码数据
-        if (this.searchValue) this.searchButton(); return
-        this.updateStuTable(this.params)
+import dialog from '../../../components/dialog'
+import { getStuList, delStu, searchStu, getClasses } from '@/api'
+import qee from 'qf-export-excel'
+export default {
+  components: {
+    'qf-dialog': dialog
+  },
+  data () {
+    return {
+      params: {
+        class: '',
+        count: 5
       },
-      //导出excel
-      exportExcel() {
-        let titleList = [
-          {
-            title: "头像",
-            key: "headimgurl"
-          },
-          {
-            title: "姓名",
-            key: "name"
-          },
-          {
-            title: "班级",
-            key: "class"
-          },
-          {
-            title: "项目",
-            key: "productUrl"
-          },
-        ]
-        let dataSource = this.stuData;
-        qee(titleList, dataSource, "学员数据")
-      },
-      //班级选择框展开/收起触发的事件
-      classVisible(isVisible) {
-        if (!isVisible) return
-        //充值dataPage的值 以免后天查询不到
-        this.dataPage = 1;
-        //发送获取班级的请求
-        getClasses()
-          .then(res => {
-            if (res.data && res.data.state) {
-              this.classOptions = res.data.data
-            }
-          })
-      },
-      //选择班级
-      classChange(query) {
-        let count = this.dataCount;
-        this.params = query === "all" ? { count } : { class: query, count }
-        this.updateStuTable(this.params)
-      },
-      searchButton() {
-        // 点击搜索按钮
-        this.loading = true
-        let key = this.searchValue
-        let count = this.dataCount;
-        let page = this.dataPage
-        let params = {
-          key,
-          count,
-          page
-        }
-        searchStu(params)
-          .then(res => {
-            if (res.data && res.data.state) {
-              console.log(res.data.data)
-              //更改表格数据对象
-              this.stuData = res.data.data
-              this.total = res.data.total //对total分页总数进行更改
-              this.loading = false;
-            } else {
-              this.$message.warning("搜索失败")
-            }
-          })
-          .catch(err => {
-            this.$message.error("搜索出错")
-          })
-      },
-      //搜索框失去焦点 保持输入框的内容
-      searchBlur() {
-        //将存储好的输入框值 设置给select组件
-        this.searchValue = this.blurSearchValue;
-      },
-      //编辑学员
-      editStu(row) {
-        this.$bus.$emit("editStuEvent", row)
-      },
-      //删除学员
-      deleteStu(row) {
-        console.log(row)
-        if (row && row.sId) {
-          //让用户确认是否删除
-          this.$confirm('此操作将永久删除该文件, 是否继续?', '删除提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            this.loading = true
-            //用户企鹅人删除
-            //调用删除请求
-            delStu(row.sId)
-              .then(res => {
-                if (res.data && res.data.state) {
-                  //删除成功
-                  this.$message.success("删除成功")
-                  this.updateStuTable()
-                } else {
-                  this.$message.warning("删除失败")
-                }
-              })
-              .catch(err => {
-                this.$message.error("删除出错")
-              })
-          }).catch(() => {
-            // 用户取消删除
-            this.$message('已取消删除');
-          });
-        } else {
-          //没有row
-          this.$message.error("没有传入row对象")
-          return
-        }
-      },
-      // 增加学员
-      addStu() {
-        // 弹出dialog
-        this.$bus.$emit('showDialog')
-      },
-      // 更新表格数据
-      updateStuTable(params) {
-        this.loading = true
-        params = this.params;
-        params.count = this.dataCount || "";
-        params.page = this.dataPage || ""
-        getStuList(params)
-          .then(res => {
-            if (res.data && res.data.state) {
-              this.stuData = res.data.data
-              this.total = res.data.total//数据总数
-              console.log("total", this.total)
-              this.loading = false
-            } else {
-              this.$message.warning('数据获取失败')
-              this.loading = false
-            }
-          })
-          .catch(err => {
-            console.log(err.message)
-            this.$message.error('获取数据出错或者网络错误')
-            this.loading = false
-          })
-      },
-      clear(e) { },
-      //搜索框选中值发生变化的事件
-      searchTextChange(searchText) {
-        this.loading = true
-        // console.log(searchText)
-        //再次调用搜索接口
-        let key = this.searchValue
-        let count = this.dataCount;
-        let params = {
-          key,
-          count
-        }
-        searchStu(params)
-          .then(res => {
-            if (res.data && res.data.state) {
-              console.log(res.data.data)
-              //更改表格数据对象
-              this.stuData = res.data.data
-              this.total = res.data.total //对total分页总数进行更改
-              this.loading = false;
-            } else {
-              this.$message.warning("搜索失败")
-            }
-          }).catch(err => {
-            this.$message.error("搜索出错")
-          })
-      },
-      remoteMethod(query) {
-        // 键盘弹起的时候获取输入值 赋值三方变量进行输入框内容存储
-        this.blurSearchValue = query;
-        let key = query;
-        let count = this.dataCount;
-        let params = {
-          key,
-          count
-        }
-        searchStu(params)
-          .then(res => {
-            if (res.data && res.data.state) {
-              console.log(res.data.data)
-              this.searchList = res.data.data
-            } else {
-              this.$message.warning("搜索失败")
-            }
-          }).catch(err => {
-            this.$message.error("搜索出错")
-          })
-      }
-    },
-    mounted() {
-      // 页面加载 获取表格数据
-      this.updateStuTable(this.params)
-      this.$bus.$on('updateStuTable', () => {
-        this.updateStuTable(this.params)
-      })
+      dataPage: '', // 页码
+      dataCount: 5, // 每页展示的数量
+      total: 0, // 总共的数据条数
+      classOptions: [],
+      disabled: false,
+      // 表格的数据对象
+      stuData: [],
+      // 表格加载动画控制
+      loading: true,
+      classes: '',
+      searchList: [],
+      searchValue: '',
+      blurSearchValue: '',
+      list: []
     }
+  },
+  methods: {
+    // 分页器页码发生改变的时候触发的事件
+    changePage (page) {
+      this.dataPage = page
+      // 点击分页切换的时候 需要判断是否搜索了 如果搜索了 那么就应该在搜索结果中 进入第后面页码数据
+      if (this.searchValue) {
+        this.searchButton()
+        return
+      }
+      this.updateStuTable(this.params)
+    },
+    // 导出excel
+    exportExcel () {
+      const titleList = [
+        {
+          title: '头像',
+          key: 'headimgurl'
+        },
+        {
+          title: '姓名',
+          key: 'name'
+        },
+        {
+          title: '班级',
+          key: 'class'
+        },
+        {
+          title: '项目',
+          key: 'productUrl'
+        }
+      ]
+      const dataSource = this.stuData
+      qee(titleList, dataSource, '学员数据')
+    },
+    // 班级选择框展开/收起触发的事件
+    classVisible (isVisible) {
+      if (!isVisible) return
+      // 充值dataPage的值 以免后天查询不到
+      this.dataPage = 1
+      // 发送获取班级的请求
+      getClasses()
+        .then(res => {
+          if (res.data && res.data.state) {
+            this.classOptions = res.data.data
+          }
+        })
+    },
+    // 选择班级
+    classChange (query) {
+      const count = this.dataCount
+      this.params = query === 'all' ? { count } : { class: query, count }
+      this.updateStuTable(this.params)
+    },
+    searchButton () {
+      // 点击搜索按钮
+      this.loading = true
+      const key = this.searchValue
+      const count = this.dataCount
+      const page = this.dataPage
+      const params = {
+        key,
+        count,
+        page
+      }
+      searchStu(params)
+        .then(res => {
+          if (res.data && res.data.state) {
+            console.log(res.data.data)
+            // 更改表格数据对象
+            this.stuData = res.data.data
+            this.total = res.data.total // 对total分页总数进行更改
+            this.loading = false
+          } else {
+            this.$message.warning('搜索失败')
+          }
+        })
+        .catch(err => {
+          this.$message.error('搜索出错')
+        })
+    },
+    // 搜索框失去焦点 保持输入框的内容
+    searchBlur () {
+      // 将存储好的输入框值 设置给select组件
+      this.searchValue = this.blurSearchValue
+    },
+    // 编辑学员
+    editStu (row) {
+      this.$bus.$emit('editStuEvent', row)
+    },
+    // 删除学员
+    deleteStu (row) {
+      console.log(row)
+      if (row && row.sId) {
+        // 让用户确认是否删除
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '删除提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.loading = true
+          // 用户企鹅人删除
+          // 调用删除请求
+          delStu(row.sId)
+            .then(res => {
+              if (res.data && res.data.state) {
+                // 删除成功
+                this.$message.success('删除成功')
+                this.updateStuTable()
+              } else {
+                this.$message.warning('删除失败')
+              }
+            })
+            .catch(err => {
+              this.$message.error('删除出错')
+            })
+        }).catch(() => {
+          // 用户取消删除
+          this.$message('已取消删除')
+        })
+      } else {
+        // 没有row
+        this.$message.error('没有传入row对象')
+      }
+    },
+    // 增加学员
+    addStu () {
+      // 弹出dialog
+      this.$bus.$emit('showDialog')
+    },
+    // 更新表格数据
+    updateStuTable (params) {
+      this.loading = true
+      params = this.params
+      params.count = this.dataCount || ''
+      params.page = this.dataPage || ''
+      getStuList(params)
+        .then(res => {
+          if (res.data && res.data.state) {
+            this.stuData = res.data.data
+            this.total = res.data.total// 数据总数
+            console.log('total', this.total)
+            this.loading = false
+          } else {
+            this.$message.warning('数据获取失败')
+            this.loading = false
+          }
+        })
+        .catch(err => {
+          console.log(err.message)
+          this.$message.error('获取数据出错或者网络错误')
+          this.loading = false
+        })
+    },
+    clear (e) { },
+    // 搜索框选中值发生变化的事件
+    searchTextChange (searchText) {
+      this.loading = true
+      // console.log(searchText)
+      // 再次调用搜索接口
+      const key = this.searchValue
+      const count = this.dataCount
+      const params = {
+        key,
+        count
+      }
+      searchStu(params)
+        .then(res => {
+          if (res.data && res.data.state) {
+            console.log(res.data.data)
+            // 更改表格数据对象
+            this.stuData = res.data.data
+            this.total = res.data.total // 对total分页总数进行更改
+            this.loading = false
+          } else {
+            this.$message.warning('搜索失败')
+          }
+        }).catch(err => {
+          this.$message.error('搜索出错')
+        })
+    },
+    remoteMethod (query) {
+      // 键盘弹起的时候获取输入值 赋值三方变量进行输入框内容存储
+      this.blurSearchValue = query
+      const key = query
+      const count = this.dataCount
+      const params = {
+        key,
+        count
+      }
+      searchStu(params)
+        .then(res => {
+          if (res.data && res.data.state) {
+            console.log(res.data.data)
+            this.searchList = res.data.data
+          } else {
+            this.$message.warning('搜索失败')
+          }
+        }).catch(err => {
+          this.$message.error('搜索出错')
+        })
+    }
+  },
+  mounted () {
+    // 页面加载 获取表格数据
+    this.updateStuTable(this.params)
+    this.$bus.$on('updateStuTable', () => {
+      this.updateStuTable(this.params)
+    })
   }
+}
 </script>
 <style scoped>
   .search {
