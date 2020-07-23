@@ -4,10 +4,9 @@
       <!-- 侧边菜单栏 -->
       <el-aside width="200">
         <h1 class="logo"></h1>
-        <el-menu default-active="1-4"
+        <el-menu :default-active="$route.path"
                  class="el-menu-vertical-demo"
                  text-color="#4e5bf8"
-                 :router="true"
                  ref="sideMenu"
                  active-text-color="#E47833"
                  :collapse="isCollapse">
@@ -50,7 +49,7 @@
           <!-- 面包屑 -->
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item v-for="item in crumb"
-                                :to="{ path: item.path || '/welcome'
+                                :to="{ path: item.path || '/Welcome'
                                 }">
               {{item.meta.name || "首页"}}
             </el-breadcrumb-item>

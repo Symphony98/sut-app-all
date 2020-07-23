@@ -10,12 +10,13 @@
           <span slot="title">{{item.meta.name}}</span>
         </template>
         <el-menu-item-group>
-          <sub-menu :sideMenu="item.children"></sub-menu>
+          <sub-menu :sideMenu="item.children"
+                    :parentPath="'/'+item.path"></sub-menu>
         </el-menu-item-group>
       </el-submenu>
       <!-- 常规菜单 -->
       <el-menu-item v-else
-                    :index="item.path"
+                    :index="parentPath+'/'+item.path"
                     @click="jumpRoute(item.name)">
         <i :class="item.meta.icon"
            style="margin-right:10px;font-size:20px"></i>
@@ -25,28 +26,32 @@
   </div>
 </template>
 <script>
-export default {
-  name: 'sub-menu', // 给组件取名字之后 可以递归
-  props: {
-    sideMenu: {
-      type: Array,
-      default: () => [] // 定义默认数据
+  export default {
+    name: 'sub-menu', // 给组件取名字之后 可以递归
+    props: {
+      parentPath: {
+        type: String,
+        default: ""
+      },
+      sideMenu: {
+        type: Array,
+        default: () => [] // 定义默认数据
+      }
+    },
+    data() {
+      return {
+        isCollapse: false
+      }
+    },
+    methods: {
+      jumpRoute(name) {
+        this.$router.push({ name })
+      }
+    },
+    mounted() {
+
     }
-  },
-  data () {
-    return {
-      isCollapse: false
-    }
-  },
-  methods: {
-    jumpRoute (name) {
-      this.$router.push({ name })
-    }
-  },
-  mounted () {
-  
   }
-}
 </script>
 <style>
   i.iconfont {
