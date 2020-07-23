@@ -7021,6 +7021,11 @@ q@^1.1.2:
   resolved "https://registry.npm.taobao.org/q/download/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
+qf-export-excel@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/qf-export-excel/download/qf-export-excel-1.0.1.tgz?cache=0&sync_timestamp=1595483774479&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fqf-export-excel%2Fdownload%2Fqf-export-excel-1.0.1.tgz#4b7119064efcaa1c9514ea28357e3abc64a0b709"
+  integrity sha1-S3EZBk78qhyVFOooNX46vGSgtwk=
+
 qs@6.7.0:
   version "6.7.0"
   resolved "https://registry.npm.taobao.org/qs/download/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"

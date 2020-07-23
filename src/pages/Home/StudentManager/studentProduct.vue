@@ -11,7 +11,7 @@
                    @change="searchTextChange"
                    reserve-keyword
                    @clear="clear"
-                   placeholder="请输入关键词"
+                   placeholder="请姓名,如果不更新,点击右侧搜索按钮"
                    :remote-method="remoteMethod"
                    :loading="loading">
           <el-option v-for="item in searchList"
@@ -52,6 +52,11 @@
           </el-select>
         </el-form-item>
       </el-form>
+    </div>
+    <!-- 导出excel -->
+    <div class="exportExcel">
+      <el-button icon="iconfont icon-excel"
+                 @click="exportExcel">导出excel数据</el-button>
     </div>
     <!-- 表格 -->
     <div class="stu-table">
@@ -108,8 +113,11 @@
     <!-- 分页器 -->
     <div class="pagination">
       <el-pagination background
+                     hide-on-single-page
                      layout="prev, pager, next"
-                     :total="30">
+                     @current-change="changePage"
+                     :page-size="dataCount"
+                     :total="total">
       </el-pagination>
     </div>
     <!-- dialog弹出框 -->
@@ -119,6 +127,7 @@
 <script>
   import dialog from '../../../components/dialog'
   import { getStuList, delStu, searchStu, getClasses } from '@/api'
+  import qee from "qf-export-excel"
   export default {
     components: {
       'qf-dialog': dialog
@@ -126,8 +135,12 @@
     data() {
       return {
         params: {
-          class: ""
+          class: "",
+          count: 5
         },
+        dataPage: "",//页码
+        dataCount: 5,//每页展示的数量
+        total: 0,//总共的数据条数
         classOptions: [],
         disabled: false,
         // 表格的数据对象
@@ -136,15 +149,47 @@
         loading: true,
         classes: '',
         searchList: [],
-        searchValue: [],
+        searchValue: "",
         blurSearchValue: "",
         list: []
       }
     },
     methods: {
+      //分页器页码发生改变的时候触发的事件
+      changePage(page) {
+        this.dataPage = page
+        //点击分页切换的时候 需要判断是否搜索了 如果搜索了 那么就应该在搜索结果中 进入第后面页码数据
+        if (this.searchValue) this.searchButton(); return
+        this.updateStuTable(this.params)
+      },
+      //导出excel
+      exportExcel() {
+        let titleList = [
+          {
+            title: "头像",
+            key: "headimgurl"
+          },
+          {
+            title: "姓名",
+            key: "name"
+          },
+          {
+            title: "班级",
+            key: "class"
+          },
+          {
+            title: "项目",
+            key: "productUrl"
+          },
+        ]
+        let dataSource = this.stuData;
+        qee(titleList, dataSource, "学员数据")
+      },
       //班级选择框展开/收起触发的事件
       classVisible(isVisible) {
         if (!isVisible) return
+        //充值dataPage的值 以免后天查询不到
+        this.dataPage = 1;
         //发送获取班级的请求
         getClasses()
           .then(res => {
@@ -155,19 +200,28 @@
       },
       //选择班级
       classChange(query) {
-        this.params = query === "all" ? {} : { class: query }
+        let count = this.dataCount;
+        this.params = query === "all" ? { count } : { class: query, count }
         this.updateStuTable(this.params)
       },
       searchButton() {
         // 点击搜索按钮
         this.loading = true
         let key = this.searchValue
-        searchStu(key)
+        let count = this.dataCount;
+        let page = this.dataPage
+        let params = {
+          key,
+          count,
+          page
+        }
+        searchStu(params)
           .then(res => {
             if (res.data && res.data.state) {
               console.log(res.data.data)
               //更改表格数据对象
               this.stuData = res.data.data
+              this.total = res.data.total //对total分页总数进行更改
               this.loading = false;
             } else {
               this.$message.warning("搜索失败")
@@ -230,10 +284,15 @@
       // 更新表格数据
       updateStuTable(params) {
         this.loading = true
+        params = this.params;
+        params.count = this.dataCount || "";
+        params.page = this.dataPage || ""
         getStuList(params)
           .then(res => {
             if (res.data && res.data.state) {
               this.stuData = res.data.data
+              this.total = res.data.total//数据总数
+              console.log("total", this.total)
               this.loading = false
             } else {
               this.$message.warning('数据获取失败')
@@ -250,15 +309,21 @@
       //搜索框选中值发生变化的事件
       searchTextChange(searchText) {
         this.loading = true
-        console.log(searchText)
+        // console.log(searchText)
         //再次调用搜索接口
-        let key = searchText
-        searchStu(key)
+        let key = this.searchValue
+        let count = this.dataCount;
+        let params = {
+          key,
+          count
+        }
+        searchStu(params)
           .then(res => {
             if (res.data && res.data.state) {
               console.log(res.data.data)
               //更改表格数据对象
               this.stuData = res.data.data
+              this.total = res.data.total //对total分页总数进行更改
               this.loading = false;
             } else {
               this.$message.warning("搜索失败")
@@ -271,7 +336,12 @@
         // 键盘弹起的时候获取输入值 赋值三方变量进行输入框内容存储
         this.blurSearchValue = query;
         let key = query;
-        searchStu(key)
+        let count = this.dataCount;
+        let params = {
+          key,
+          count
+        }
+        searchStu(params)
           .then(res => {
             if (res.data && res.data.state) {
               console.log(res.data.data)
@@ -286,9 +356,9 @@
     },
     mounted() {
       // 页面加载 获取表格数据
-      this.updateStuTable()
+      this.updateStuTable(this.params)
       this.$bus.$on('updateStuTable', () => {
-        this.updateStuTable()
+        this.updateStuTable(this.params)
       })
     }
   }

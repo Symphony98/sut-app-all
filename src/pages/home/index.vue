@@ -20,8 +20,8 @@
                   class="row-bg"
                   justify="space-between">
             <el-col :span="6">
-              <div class="sq grid-content">
-                <i class="iconfont icon-sq"
+              <div class="shouqi grid-content">
+                <i :class="['iconfont',isCollapse?'icon-zhankai':'icon-shouqi']"
                    @click="isCollapse=!isCollapse"></i>
               </div>
             </el-col>
@@ -37,7 +37,7 @@
                            fit="fill"
                            src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKL6Uj3HPlcico2jy2GBpKyqBjbWCuicAibQ0BRic2Pu8a1fBUzGH7YB6UOy4Tl1k3iacXrEeLPyzXvs5Q/132"></el-avatar>
                 <span>欢迎您:</span>
-                <span class="nickname">{{$store.state.userInfo.nickname}}</span>
+                <span class="nickname" @click="$router.push('/Mine')">{{$store.state.userInfo.nickname}}</span>
                 <span class="quit"
                       @click="quit">退出</span>
               </div>
@@ -118,17 +118,18 @@
     background-position: center;
   }
   /* header模块样式 */
-  .sq {
+  .shouqi {
     padding-left: 10px;
     text-align: left;
   }
-  .icon-sq {
+  .icon-shouqi,
+  .icon-zhankai {
     font-size: 30px;
     cursor: pointer;
     color: #fff;
   }
   /* 修改avatar的样式 */
-  .el-avatar.el-avatar--square,
+  .el-avatar.el-avatar--shouqiuare,
   .el-avatar.el-avatar--circle {
     vertical-align: middle;
     margin-right: 10px;

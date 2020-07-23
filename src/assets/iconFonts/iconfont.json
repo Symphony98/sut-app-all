@@ -41,6 +41,13 @@
       "unicode_decimal": 58886
     },
     {
+      "icon_id": "3927073",
+      "name": "二维码角标",
+      "font_class": "erweimajiaobiao",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
       "icon_id": "4447107",
       "name": "数据",
       "font_class": "shuju",
@@ -55,9 +62,16 @@
       "unicode_decimal": 59001
     },
     {
+      "icon_id": "4946434",
+      "name": "Excel",
+      "font_class": "Excel",
+      "unicode": "e502",
+      "unicode_decimal": 58626
+    },
+    {
       "icon_id": "5479619",
       "name": "二维码角标",
-      "font_class": "erweimajiaobiao",
+      "font_class": "erweimajiaobiao1",
       "unicode": "e530",
       "unicode_decimal": 58672
     },
@@ -90,11 +104,18 @@
       "unicode_decimal": 58997
     },
     {
+      "icon_id": "11227995",
+      "name": "excel",
+      "font_class": "excel",
+      "unicode": "e510",
+      "unicode_decimal": 58640
+    },
+    {
       "icon_id": "11413715",
       "name": "数据",
       "font_class": "shuju2",
-      "unicode": "e502",
-      "unicode_decimal": 58626
+      "unicode": "e503",
+      "unicode_decimal": 58627
     },
     {
       "icon_id": "11743693",
@@ -116,6 +137,20 @@
       "font_class": "kaoqin3",
       "unicode": "e633",
       "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "12072275",
+      "name": "excel",
+      "font_class": "excel1",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "13024135",
+      "name": "收 起",
+      "font_class": "zhankai",
+      "unicode": "e504",
+      "unicode_decimal": 58628
     },
     {
       "icon_id": "13653539",
