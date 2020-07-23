@@ -1,7 +1,4 @@
-export default (buttons, permission) => {
-    if (!permission) { }
-    // console.log(permission)
-    // console.log(buttons)
+export default (buttons,permission) => {
     let res = buttons.includes(permission)
     return res
 }

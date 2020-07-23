@@ -19,11 +19,11 @@ Vue.use(ElementUI)
 // Vue.config.productionTip = false
 //定义全局自定义指令 判断是否具备相应按钮权限
 Vue.directive("haspermission", {
- 
+
   bind(el, binding, VNode) {
     // console.log(el)
     let buttons = localStorage.getItem("wf-permission-buttons")
-    if (!has(buttons,binding.value)) {
+    if (!has(buttons, binding.value)) {
       //禁用按钮
       // console.log(el.className)
       //先储存class类名 在这基础上加上is-disabled禁用按钮
@@ -34,7 +34,7 @@ Vue.directive("haspermission", {
     }
   }
 })
-// 路由守卫
+// 路由前置钩子(路由守卫)
 router.beforeEach((to, from, next) => {
   // 注册和登入可以给用户访问
   // 其它页面不给访问
@@ -59,6 +59,13 @@ router.beforeEach((to, from, next) => {
       next({ path: '/login' })
     }
   }
+})
+
+//全局后置钩子
+router.afterEach((to, from) => {
+  console.log(to)
+  // console.log(from)
+  store.commit("SET_CRUMB", to.matched)
 })
 
 new Vue({

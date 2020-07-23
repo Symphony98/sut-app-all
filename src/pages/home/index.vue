@@ -7,6 +7,8 @@
         <el-menu default-active="1-4"
                  class="el-menu-vertical-demo"
                  text-color="#4e5bf8"
+                 :router="true"
+                 ref="sideMenu"
                  active-text-color="#E47833"
                  :collapse="isCollapse">
           <subMenu :sideMenu='sideMenu'></subMenu>
@@ -47,9 +49,11 @@
         <el-main>
           <!-- 面包屑 -->
           <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>学员管理</el-breadcrumb-item>
-            <el-breadcrumb-item>项目管理</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="item in crumb"
+                                :to="{ path: item.path || '/welcome'
+                                }">
+              {{item.meta.name || "首页"}}
+            </el-breadcrumb-item>
           </el-breadcrumb>
           <router-view></router-view>
         </el-main>
@@ -68,7 +72,7 @@
       }
     },
     computed: {
-      ...mapState(['sideMenu'])
+      ...mapState(['sideMenu', 'crumb'])
     },
     methods: {
       quit() {
@@ -83,7 +87,7 @@
       }
     },
     mounted() {
-
+      // this.$refs['sideMenu'].open({ index: "/welcome" })
     },
     components: {
       subMenu
@@ -92,10 +96,10 @@
 </script>
 <style scoped>
   .nickname {
-    margin-left:10px;
-    color:#fff;
+    margin-left: 10px;
+    color: #fff;
     font-weight: 700;
-    font-size:20px;
+    font-size: 20px;
     text-decoration: underline;
     cursor: pointer;
   }

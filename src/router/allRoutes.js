@@ -21,6 +21,7 @@ const allRoutes = [
   {
     path: 'StudentManager',
     name: 'StudentManager',
+    redirect:"/StudentManager/studentProduct",
     component: StudentManager,
     meta: {
       name: '学员管理',

@@ -183,9 +183,9 @@
       position: absolute;
       right: -1px;
       top: -2px;
-      font-size: 70px;
+      font-size: 50px;
       text-align: right;
-      color: #fff;
+      color: #e2e2e2;
       cursor: pointer;
     }
     .wechatLogin {

@@ -16,7 +16,8 @@ export default new Vuex.Store({
   state: {
     sideMenu: [],
     userInfo,
-    permissionButtons
+    permissionButtons,
+    crumb: []
   },
   mutations: {
     SET_SIDEMENU(state, payload) { // 设置用户菜单
@@ -34,6 +35,10 @@ export default new Vuex.Store({
     },
     SET_PERMISSION_BUTTONS(state, payload) {
       state.permissionButtons = payload
+    },
+    //设置面包屑的值
+    SET_CRUMB(state, payload) {
+      state.crumb = payload
     }
   },
   actions: {
