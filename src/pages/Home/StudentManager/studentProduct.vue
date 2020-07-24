@@ -95,7 +95,7 @@
                        class="btn"
                        icon="el-icon-view"
                        v-haspermission="'read'"
-                       @click="$router.push({name:'studentProfile'})">查看</el-button>
+                       @click="$router.push({path:'/StudentManager/studentProfile'})">查看</el-button>
             <el-button type="primary"
                        class="btn"
                        icon="el-icon-edit"

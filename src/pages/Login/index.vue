@@ -56,171 +56,171 @@
   </div>
 </template>
 <script>
-  import { login, wechatLogin } from '@/api'
-  import io from "socket.io-client"
-  export default {
-    data() {
-      // 校验用户名
-      var validateUsername = (rule, value, callback) => {
-        // 用户名正则，4到16位（字母，数字，下划线，减号）
-        // var uPattern = /^[a-zA-Z0-9_-]{4,16}$/
-        if (value === '') {
-          console.log(123)
-          callback(new Error('请输入用户名'))
-        } else {
-          callback()
-        }
-      }
-      // 校验用户密码
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'))
-        } else {
-          callback()
-        }
-      }
-      return {
-        isScan: false,//是否扫码
-        isWechat: false,
-        jiaobiao: "icon-diannaojiaobiao",
-        loginForm: {
-          username: '',
-          password: ''
-        },
-        rules: {
-          username: [
-            { validator: validateUsername, trigger: 'blur' }
-          ],
-          password: [
-            { validator: validatePass, trigger: 'blur' }
-          ]
-        }
-      }
-    },
-    methods: {
-      //微信登入
-      //点击切换登入方式
-      checkoutLoginType() {
-        this.isWechat = !this.isWechat;
-        if (this.isWechat) {
-          //说明是微信登入
-          //通过socket.io和服务器建立socket连接
-          let socket = io("ws://chst.vip")
-          let _this = this
-          let r = fetch("/api/users/getScancode")
-            .then(body => body.json())
-            .then(res => {
-
-            })//展示二维码
-          socket.on("connect", function () {
-            console.log("连接成功")
-            socket.on('scancodeSuccess', data => {//扫码成功事件
-              console.log(data)
-              console.log(this.isScan)
-              if (data.state) {
-                _this.isScan = true;
-                let wechatCode = data.wechatCode
-                wechatLogin(wechatCode)
-                  .then(res => {
-                    if (res.data && res.data.state) {
-                      console.log(res)
-                      if (data.state) {
-                        //登入成功
-                        //将token保存到loalstorage
-                        localStorage.setItem('wf-token', res.data.token)
-                        //将userInfo存到localstorage
-                        localStorage.setItem("wf-userInfo", JSON.stringify(res.data.userInfo))
-                        //用户按钮
-                        localStorage.setItem('wf-permission-buttons', JSON.stringify(res.data.permission.buttons))
-                        //将用户信息储存到vuex中
-                        _this.$store.commit("SET_USERINFO", res.data.userInfo)
-                        //将用户权限按钮保存在vuex中
-                        _this.$store.commit("SET_PERMISSION_BUTTONS", res.data.permission.buttons)
-                        //页面跳转到欢迎页
-                        _this.$router.push("/Welcome")
-                      }
-                    }
-                  })
-              }
-            })
-          })
-          socket.on('getScancode', data => { //切换成功微信登入事件 可以获得二维码
-            console.log(data)
-          })
-
-          // socket.on('wechatLoginSuccess', data => {//扫码登入成功
-          //   console.log(data)
-          //   if (data.state) {
-          //     //登入成功
-          //     //将token保存到loalstorage
-          //     localStorage.setItem('wf-token', data.token)
-          //     //将userInfo存到localstorage
-          //     localStorage.setItem("wf-userInfo", JSON.stringify(data.userInfo))
-          //     //页面跳转到欢迎页
-          //     this.$router.push("/Welcome")
-          //   }
-          // })
-
-          //调用微信登入接口
-          // wechatLogin()
-          //   .then(res => {
-          //     if (res.data && res.data.state) { }
-          //     // console.log(res)
-          //     //可以得到后端返回的二维码
-          //   })
-        }
-      },
-      // 点击提交按钮触发的方法
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) { // 本地校验通过
-            // 打开加载框
-            const loginLoading = this.$loading({
-              lock: true,
-              text: '拼命加载中',
-              spinner: 'el-icon-loading',
-              background: 'rgba(0, 0, 0, 0.7)'
-            })
-            // 发送登入请求
-            login(this.loginForm.username, this.loginForm.password)
-              .then(res => {
-                // 关闭加载框
-                loginLoading.close()
-                if (res.data && res.data.state) {
-                  // 表示用户名密码正确
-                  //将用户信息储存到vuex中
-                  this.$store.commit("SET_USERINFO", res.data.userInfo)
-                  //将用户权限按钮保存在vuex中
-                  this.$store.commit("SET_PERMISSION_BUTTONS", res.data.permission.buttons)
-                  // 将token存入本地
-                  localStorage.setItem('wf-token', res.data.token)
-                  localStorage.setItem('wf-userInfo', JSON.stringify(res.data.userInfo))
-                  localStorage.setItem('wf-permission-buttons', JSON.stringify(res.data.permission.buttons))
-                  // 页面跳转到主页
-                  this.$router.push('/Welcome')
-                  this.$message.success('登入成功,正则跳转...')
-                } else {
-                  // 提示用户 账户密码错误
-                  this.$message.error('账户密码错误')
-                }
-              })
-              .catch(err => {
-                // 关闭加载框
-                loginLoading.close()
-                this.$message.error('登入出错')
-                console.log(err)
-              })
-          } else { // 本地校验不通过
-            console.log('error submit!!')
-            return false
-          }
-        })
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields()
+import { login, wechatLogin } from '@/api'
+import io from 'socket.io-client'
+export default {
+  data () {
+    // 校验用户名
+    var validateUsername = (rule, value, callback) => {
+      // 用户名正则，4到16位（字母，数字，下划线，减号）
+      // var uPattern = /^[a-zA-Z0-9_-]{4,16}$/
+      if (value === '') {
+        console.log(123)
+        callback(new Error('请输入用户名'))
+      } else {
+        callback()
       }
     }
+    // 校验用户密码
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      isScan: false, // 是否扫码
+      isWechat: false,
+      jiaobiao: 'icon-diannaojiaobiao',
+      loginForm: {
+        username: '',
+        password: ''
+      },
+      rules: {
+        username: [
+          { validator: validateUsername, trigger: 'blur' }
+        ],
+        password: [
+          { validator: validatePass, trigger: 'blur' }
+        ]
+      }
+    }
+  },
+  methods: {
+    // 微信登入
+    // 点击切换登入方式
+    checkoutLoginType () {
+      this.isWechat = !this.isWechat
+      if (this.isWechat) {
+        // 说明是微信登入
+        // 通过socket.io和服务器建立socket连接
+        const socket = io('ws://chst.vip')
+        const _this = this
+        const r = fetch('/api/users/getScancode')
+          .then(body => body.json())
+          .then(res => {
+
+          })// 展示二维码
+        socket.on('connect', function () {
+          console.log('连接成功')
+          socket.on('scancodeSuccess', data => { // 扫码成功事件
+            console.log(data)
+            console.log(this.isScan)
+            if (data.state) {
+              _this.isScan = true
+              const wechatCode = data.wechatCode
+              wechatLogin(wechatCode)
+                .then(res => {
+                  if (res.data && res.data.state) {
+                    console.log(res)
+                    if (data.state) {
+                      // 登入成功
+                      // 将token保存到loalstorage
+                      localStorage.setItem('wf-token', res.data.token)
+                      // 将userInfo存到localstorage
+                      localStorage.setItem('wf-userInfo', JSON.stringify(res.data.userInfo))
+                      // 用户按钮
+                      localStorage.setItem('wf-permission-buttons', JSON.stringify(res.data.permission.buttons))
+                      // 将用户信息储存到vuex中
+                      _this.$store.commit('SET_USERINFO', res.data.userInfo)
+                      // 将用户权限按钮保存在vuex中
+                      _this.$store.commit('SET_PERMISSION_BUTTONS', res.data.permission.buttons)
+                      // 页面跳转到欢迎页
+                      _this.$router.push('/Welcome')
+                    }
+                  }
+                })
+            }
+          })
+        })
+        socket.on('getScancode', data => { // 切换成功微信登入事件 可以获得二维码
+          console.log(data)
+        })
+
+        // socket.on('wechatLoginSuccess', data => {//扫码登入成功
+        //   console.log(data)
+        //   if (data.state) {
+        //     //登入成功
+        //     //将token保存到loalstorage
+        //     localStorage.setItem('wf-token', data.token)
+        //     //将userInfo存到localstorage
+        //     localStorage.setItem("wf-userInfo", JSON.stringify(data.userInfo))
+        //     //页面跳转到欢迎页
+        //     this.$router.push("/Welcome")
+        //   }
+        // })
+
+        // 调用微信登入接口
+        // wechatLogin()
+        //   .then(res => {
+        //     if (res.data && res.data.state) { }
+        //     // console.log(res)
+        //     //可以得到后端返回的二维码
+        //   })
+      }
+    },
+    // 点击提交按钮触发的方法
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) { // 本地校验通过
+          // 打开加载框
+          const loginLoading = this.$loading({
+            lock: true,
+            text: '拼命加载中',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          })
+          // 发送登入请求
+          login(this.loginForm.username, this.loginForm.password)
+            .then(res => {
+              // 关闭加载框
+              loginLoading.close()
+              if (res.data && res.data.state) {
+                // 表示用户名密码正确
+                // 将用户信息储存到vuex中
+                this.$store.commit('SET_USERINFO', res.data.userInfo)
+                // 将用户权限按钮保存在vuex中
+                this.$store.commit('SET_PERMISSION_BUTTONS', res.data.permission.buttons)
+                // 将token存入本地
+                localStorage.setItem('wf-token', res.data.token)
+                localStorage.setItem('wf-userInfo', JSON.stringify(res.data.userInfo))
+                localStorage.setItem('wf-permission-buttons', JSON.stringify(res.data.permission.buttons))
+                // 页面跳转到主页
+                this.$router.push('/Welcome')
+                this.$message.success('登入成功,正则跳转...')
+              } else {
+                // 提示用户 账户密码错误
+                this.$message.error('账户密码错误')
+              }
+            })
+            .catch(err => {
+              // 关闭加载框
+              loginLoading.close()
+              this.$message.error('登入出错')
+              console.log(err)
+            })
+        } else { // 本地校验不通过
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    }
   }
+}
 </script>
 <style scoped lang="less">
   i.icon-saomachenggong {
