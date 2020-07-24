@@ -49,3 +49,6 @@ export const searchStu = (params) => {
 
 // 获取班级 /students/getclasses
 export const getClasses = () => axios.get('/students/getclasses')
+
+//微信登入 /users/wechatLogin
+export const wechatLogin = (wechatCode) => axios.get(`/users/wechatLogin?wechatCode=${wechatCode}`)

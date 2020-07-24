@@ -35,9 +35,10 @@
                 <el-avatar shape="circle"
                            :size="35"
                            fit="fill"
-                           src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKL6Uj3HPlcico2jy2GBpKyqBjbWCuicAibQ0BRic2Pu8a1fBUzGH7YB6UOy4Tl1k3iacXrEeLPyzXvs5Q/132"></el-avatar>
+                           :src="userInfo.headimgurl"></el-avatar>
                 <span>欢迎您:</span>
-                <span class="nickname" @click="$router.push('/Mine')">{{$store.state.userInfo.nickname}}</span>
+                <span class="nickname"
+                      @click="$router.push('/Mine')">{{$store.state.userInfo.nickname}}</span>
                 <span class="quit"
                       @click="quit">退出</span>
               </div>
@@ -61,44 +62,44 @@
   </div>
 </template>
 <script>
-import subMenu from '../../components/subMenu'
-import { mapState } from 'vuex'
-export default {
-  data () {
-    return {
-      // 控制menu是否收起
-      isCollapse: false
+  import subMenu from '../../components/subMenu'
+  import { mapState } from 'vuex'
+  export default {
+    data() {
+      return {
+        // 控制menu是否收起
+        isCollapse: false
+      }
+    },
+    computed: {
+      ...mapState(['sideMenu', 'crumb', "userInfo"])
+    },
+    methods: {
+      quit() {
+        // 情况localstorage中的token
+        localStorage.removeItem('wf-token')
+        // 清空vuex中 sideMenu的数据
+        this.$store.commit('CLEAR_SIDEMENU')
+        // 跳转到登入页
+        this.$router.push('/login')
+        // 刷新页面
+        window.location.reload()
+      }
+    },
+    mounted() {
+      // this.$refs['sideMenu'].open({ index: "/welcome" })
+    },
+    components: {
+      subMenu
     }
-  },
-  computed: {
-    ...mapState(['sideMenu', 'crumb'])
-  },
-  methods: {
-    quit () {
-      // 情况localstorage中的token
-      localStorage.removeItem('wf-token')
-      // 清空vuex中 sideMenu的数据
-      this.$store.commit('CLEAR_SIDEMENU')
-      // 跳转到登入页
-      this.$router.push('/login')
-      // 刷新页面
-      window.location.reload()
-    }
-  },
-  mounted () {
-    // this.$refs['sideMenu'].open({ index: "/welcome" })
-  },
-  components: {
-    subMenu
   }
-}
 </script>
 <style scoped>
   .nickname {
     margin-left: 10px;
     color: #fff;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 15px;
     text-decoration: underline;
     cursor: pointer;
   }

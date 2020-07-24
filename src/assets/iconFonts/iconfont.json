@@ -97,11 +97,25 @@
       "unicode_decimal": 59097
     },
     {
+      "icon_id": "8447078",
+      "name": "成功",
+      "font_class": "chenggong",
+      "unicode": "e6ca",
+      "unicode_decimal": 59082
+    },
+    {
       "icon_id": "9028829",
       "name": "首页",
       "font_class": "shouye1",
       "unicode": "e675",
       "unicode_decimal": 58997
+    },
+    {
+      "icon_id": "9301930",
+      "name": "扫码成功",
+      "font_class": "saomachenggong",
+      "unicode": "e631",
+      "unicode_decimal": 58929
     },
     {
       "icon_id": "11227995",
