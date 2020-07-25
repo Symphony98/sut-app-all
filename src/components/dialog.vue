@@ -17,7 +17,7 @@
                    :multiple="false">
           <i class="el-icon-plus"></i>
         </el-upload>
-      </el-form-item prop="name">
+      </el-form-item>
       <el-form-item label="姓名"
                     prop="name">
         <el-input v-model="stuForm.name"
@@ -151,8 +151,7 @@
             // 本地表单校验通 将表单信息提交到后台
             // 关闭 dialog
             this.dialogVisible = false
-            //增加
-
+            //增加或者编辑
             api[this.dialogInfo.requestName](this.stuForm)
               .then(res => {
                 if (res.data && res.data.state) {
@@ -167,6 +166,7 @@
                   this.$message.warning(this.dialogInfo.editerrorMsg)
                 }
               }).catch(err => {
+                console.log(err)
                 this.$message.error('登入过期网络错误')
               })
 

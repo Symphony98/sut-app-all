@@ -3,6 +3,7 @@
     <template>
       <el-table :data="welcomeData"
                 border
+                v-loading="loading"
                 style="width: 100%">
         <el-table-column prop="username"
                          label="登入账户"
@@ -36,6 +37,7 @@
   export default {
     data() {
       return {
+        loading:true,
         welcomeData: []
       }
     },
@@ -45,6 +47,7 @@
           if (res.data && res.data.state) {
             // console.log(res)
             this.welcomeData = res.data.data
+            this.loading = false
           }
         })
     }

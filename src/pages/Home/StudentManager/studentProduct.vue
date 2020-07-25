@@ -11,7 +11,7 @@
                    @change="searchTextChange"
                    reserve-keyword
                    @clear="clear"
-                   placeholder="请姓名,如果不更新,点击右侧搜索按钮"
+                   placeholder="请输入姓名,如果不更新,点击右侧搜索按钮"
                    :remote-method="remoteMethod"
                    :loading="loading">
           <el-option v-for="item in searchList"
@@ -221,7 +221,6 @@ export default {
       searchStu(params)
         .then(res => {
           if (res.data && res.data.state) {
-            console.log(res.data.data)
             // 更改表格数据对象
             this.stuData = res.data.data
             this.total = res.data.total // 对total分页总数进行更改
