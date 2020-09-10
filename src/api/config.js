@@ -1,7 +1,20 @@
 import axios from 'axios'
 import router from '../router'
+import ElementUI from "element-ui"
 // 通过axios.create方法 配置默认请求属性
-const baseURL = process.env.NODE_ENV === 'development' ? '/api' : 'http://chst.vip:1901'
+// const baseURL = process.env.NODE_ENV === 'development' ? '/api' : 'http://chst.vip:1901'
+let baseURL;
+let env = process.env.NODE_ENV
+switch (env) {
+  case "development":
+    baseURL = '/api'
+    break;
+  case "production":
+    baseURL = 'http://chst.vip'
+    break
+  case "test":
+    baseURL = 'xxx'
+}
 axios.defaults.baseURL = baseURL
 axios.create({
   timeout: 3000,
@@ -30,6 +43,7 @@ axios.interceptors.response.use(config => {
   if (data) {
     // 如果后台返回1004状态码 则表示校验失败 返回10022表示后台登入态失效 页面需要跳转到登入页
     if (data.code === '1004' || data.code === '10022') {
+      ElementUI.Message.error('登入过期')
       localStorage.removeItem('wf-token')
       router.push('/login')
     } else {

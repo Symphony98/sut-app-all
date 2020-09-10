@@ -229,9 +229,7 @@ export default {
             this.$message.warning('搜索失败')
           }
         })
-        .catch(err => {
-          this.$message.error('搜索出错')
-        })
+        
     },
     // 搜索框失去焦点 保持输入框的内容
     searchBlur () {
@@ -300,11 +298,7 @@ export default {
             this.loading = false
           }
         })
-        .catch(err => {
-          console.log(err.message)
-          this.$message.error('获取数据出错或者网络错误')
-          this.loading = false
-        })
+       
     },
     clear (e) { },
     // 搜索框选中值发生变化的事件
@@ -329,8 +323,6 @@ export default {
           } else {
             this.$message.warning('搜索失败')
           }
-        }).catch(err => {
-          this.$message.error('搜索出错')
         })
     },
     remoteMethod (query) {

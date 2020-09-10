@@ -7164,10 +7164,10 @@ q@^1.1.2:
   resolved "https://registry.npm.taobao.org/q/download/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-qf-export-excel@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npm.taobao.org/qf-export-excel/download/qf-export-excel-1.0.1.tgz?cache=0&sync_timestamp=1595483774479&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fqf-export-excel%2Fdownload%2Fqf-export-excel-1.0.1.tgz#4b7119064efcaa1c9514ea28357e3abc64a0b709"
-  integrity sha1-S3EZBk78qhyVFOooNX46vGSgtwk=
+qf-export-excel@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/qf-export-excel/download/qf-export-excel-1.0.2.tgz#9f8d88fe47d45ed8e2be6932e004d5548d63c7ce"
+  integrity sha1-n42I/kfUXtjivmky4ATVVI1jx84=
 
 qs@6.7.0:
   version "6.7.0"
@@ -8842,10 +8842,10 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-router@^3.2.0:
-  version "3.3.4"
-  resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-3.3.4.tgz?cache=0&sync_timestamp=1594111718735&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-router%2Fdownload%2Fvue-router-3.3.4.tgz#4e38abc34a11c41b6c3d8244449a2e363ba6250b"
-  integrity sha1-Tjirw0oRxBtsPYJERJouNjumJQs=
+vue-router@^3.2.1:
+  version "3.4.3"
+  resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-3.4.3.tgz?cache=0&sync_timestamp=1598983087864&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-router%2Fdownload%2Fvue-router-3.4.3.tgz#fa93768616ee338aa174f160ac965167fa572ffa"
+  integrity sha1-+pN2hhbuM4qhdPFgrJZRZ/pXL/o=
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"
