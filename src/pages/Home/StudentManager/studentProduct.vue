@@ -207,8 +207,8 @@ export default {
       this.params = query === 'all' ? { count } : { class: query, count }
       this.updateStuTable(this.params)
     },
-    searchButton () {
-      // 点击搜索按钮
+    // 点击搜索按钮
+    searchButton () {      
       this.loading = true
       const key = this.searchValue
       const count = this.dataCount
@@ -228,8 +228,7 @@ export default {
           } else {
             this.$message.warning('搜索失败')
           }
-        })
-        
+        })        
     },
     // 搜索框失去焦点 保持输入框的内容
     searchBlur () {
